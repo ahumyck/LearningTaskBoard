@@ -1,4 +1,9 @@
+# Idea project files
+*.iml
+/.idea
+
 # Compiled class file
+./target
 *.class
 
 # Log file
