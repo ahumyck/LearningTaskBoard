@@ -4,9 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
-    <artifactId>LearningTaskBoard</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>com.evgeniy.task</groupId>
+    <artifactId>learning-task-board</artifactId>
+    <version>1.0</version>
+    <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -15,6 +16,14 @@
         <maven.compiler.source>18</maven.compiler.source>
         <maven.compiler.target>18</maven.compiler.target>
     </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>Learning TaskBoard Package</name>
+            <url>https://maven.pkg.github.com/ahumyck/LearningTaskBoard</url>
+        </repository>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
@@ -42,6 +51,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
