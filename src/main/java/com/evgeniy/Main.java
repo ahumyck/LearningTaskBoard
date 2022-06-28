@@ -1,11 +1,21 @@
 package com.evgeniy;
 
+import com.evgeniy.task.Status;
+import com.evgeniy.task.board.TaskBoard;
+
+import com.evgeniy.task.Task;
+
+import java.util.Date;
+import java.util.List;
+
 public class Main {
 
     /**
      * Запускать программу тут
      */
     public static void main(String[] args) {
+
+
         /*
             Сначала полностью прочитай!!!
             0. Посмотри видосы (можешь на 1.5х - 2х поставить скорость)
@@ -61,3 +71,4 @@ public class Main {
          */
     }
 }
+

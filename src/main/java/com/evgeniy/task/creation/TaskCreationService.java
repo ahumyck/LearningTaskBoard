@@ -1,7 +1,10 @@
 package com.evgeniy.task.creation;
 
+import com.evgeniy.task.Status;
 import com.evgeniy.task.Task;
+import com.evgeniy.task.TaskImpl;
 
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -23,9 +26,10 @@ public class TaskCreationService {
         return InnerHolder.TASK_CREATION_SERVICE;
     }
 
-    public Task createTask(String name, String description) {
+    public Task createTask(Long id, String name, String description, Status status, Date ctime) {
         //Реализовать самому
-        return null;
+
+        return new TaskImpl(id, name, description, status, ctime);
     }
 
 }
