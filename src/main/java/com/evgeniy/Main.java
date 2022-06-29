@@ -16,7 +16,6 @@ public class Main {
      * Запускать программу тут
      */
     public static void main(String[] args) {
-        Status status = Status.OPEN;
         TaskBoard taskBoard = new DefaultTaskBoard();
         Task task1 = TaskCreationService.getInstance().createTask("Add tasks", "Add some tasks for test");
         Task task2 = TaskCreationService.getInstance().createTask("Show all tasks", "Show all added tasks for test");

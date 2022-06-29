@@ -4,6 +4,7 @@ import com.evgeniy.task.Status;
 import com.evgeniy.task.Task;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class DefaultTaskBoard implements TaskBoard {
@@ -16,8 +17,7 @@ public class DefaultTaskBoard implements TaskBoard {
 
     @Override
     public boolean removeTask(Task task) {
-        tasks.remove(task);
-        return tasks.contains(task);
+        return removeTask(task.getId());
     }
 
     @Override

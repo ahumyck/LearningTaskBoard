@@ -2,7 +2,7 @@ package com.evgeniy.task;
 
 import java.util.Date;
 
-public class DefaultTask implements Task{
+public class DefaultTask implements Task {
     private final Long id;
     private String name;
     private String description;
@@ -10,7 +10,7 @@ public class DefaultTask implements Task{
     private Date creationDate;
 
     public DefaultTask(Long id, String name, String description) {
-        this.id=id;
+        this.id = id;
         this.name = name;
         this.description = description;
         this.status = Status.OPEN;
@@ -43,7 +43,7 @@ public class DefaultTask implements Task{
 
     @Override
     public String toString() {
-        return (getId()+". "+getName()+". "+getDescription()+". "+getStatus()+"\n");
+        return getId() + ". " + getName() + ". " + getDescription() + ". " + getStatus();
     }
 
     public void setStatus(Status status) {

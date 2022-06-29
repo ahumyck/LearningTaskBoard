@@ -8,7 +8,7 @@ import com.evgeniy.task.DefaultTask;
  */
 public class TaskCreationService {
 
-    private long idCounter = 0;
+    private long idCounter = 999_999;
     /*
      * На это не обращай внимания особо, потом расскажу зачем это
      */
@@ -24,8 +24,6 @@ public class TaskCreationService {
     }
 
     public Task createTask(String name, String description) {
-        //Реализовать самому
-
         return new DefaultTask(idCounter++, name, description);
     }
 
