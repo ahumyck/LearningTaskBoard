@@ -1,17 +1,14 @@
 package com.evgeniy.task.creation;
 
-import com.evgeniy.task.Status;
 import com.evgeniy.task.Task;
-import com.evgeniy.task.TaskImpl;
-
-import java.util.Date;
-import java.util.concurrent.atomic.AtomicLong;
+import com.evgeniy.task.DefaultTask;
 
 /**
  * Сервис для создания задач
  */
 public class TaskCreationService {
 
+    private long idCounter = 0;
     /*
      * На это не обращай внимания особо, потом расскажу зачем это
      */
@@ -26,10 +23,10 @@ public class TaskCreationService {
         return InnerHolder.TASK_CREATION_SERVICE;
     }
 
-    public Task createTask(Long id, String name, String description, Status status, Date ctime) {
+    public Task createTask(String name, String description) {
         //Реализовать самому
 
-        return new TaskImpl(id, name, description, status, ctime);
+        return new DefaultTask(idCounter++, name, description);
     }
 
 }

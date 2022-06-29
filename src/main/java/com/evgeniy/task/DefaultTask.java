@@ -1,22 +1,20 @@
 package com.evgeniy.task;
-import com.evgeniy.task.Status;
-import com.evgeniy.task.Task;
 
 import java.util.Date;
 
-public class TaskImpl implements Task{
-    private Long id;
+public class DefaultTask implements Task{
+    private final Long id;
     private String name;
     private String description;
     private Status status;
-    private Date ctime;
+    private Date creationDate;
 
-    public TaskImpl(Long id, String name, String description, Status status, Date ctime) {
+    public DefaultTask(Long id, String name, String description) {
         this.id=id;
         this.name = name;
         this.description = description;
-        this.status = status;
-        this.ctime = ctime;
+        this.status = Status.OPEN;
+        this.creationDate = creationDate;
     }
 
     @Override
@@ -40,6 +38,15 @@ public class TaskImpl implements Task{
     }
 
     public Date getCreationTime() {
-        return ctime;
+        return creationDate;
+    }
+
+    @Override
+    public String toString() {
+        return (getId()+". "+getName()+". "+getDescription()+". "+getStatus()+"\n");
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }
