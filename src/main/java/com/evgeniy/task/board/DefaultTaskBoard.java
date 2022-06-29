@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class DefaultTaskBoard implements TaskBoard {
-    List<Task> tasks = new ArrayList<>();
+    private List<Task> tasks = new ArrayList<>();
 
     @Override
     public boolean addTask(Task task) {
@@ -22,9 +22,16 @@ public class DefaultTaskBoard implements TaskBoard {
 
     @Override
     public boolean removeTask(Long taskId) {
-        tasks.remove(taskId.intValue());
-        Task task = tasks.get(taskId.intValue());
-        return tasks.contains(task);
+        boolean result = false;
+        for(int i=0; i<tasks.size();i++){
+            Task task = tasks.get(i);
+            if (task.getId()==taskId){
+                tasks.remove(i);
+                result = true;
+            }
+            else{continue;}
+        }
+        return result;
     }
 
     @Override
@@ -34,8 +41,17 @@ public class DefaultTaskBoard implements TaskBoard {
 
     @Override
     public Task getTaskById(Long taskId) {
-        return tasks.get(taskId.intValue());
-    }
+        Task result = null;
+        for(int j=0; j<tasks.size();j++){
+            Task task = tasks.get(j);
+            if (task.getId()==taskId){
+                result = task;
+            }
+            else{continue;}
+        }
+        return result;
+        }
+
 
     public List<Task> getTasksByStatus(Status status) {
 
