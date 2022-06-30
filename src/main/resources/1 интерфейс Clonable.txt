@@ -1,0 +1,53 @@
+Теперь надо познакомиться со стандартнами библиотеками java и узнать что они предоставляют
+
+Для начала познакомимся c интерфейсом Cloneable
+
+Необходимо сделать следующим образом:
+    - Интерфейс Task должен наследовать интерфейс Cloneable
+    - Интерфесу Task необходимо добавить
+        метод Task clone() throws CloneNotSupportedException; с соответсвующими javadoc комментариями
+        (что такое javadoc комментарии посмотри в гугле)
+    - Класс DefaultTask должен переопределять метод clone
+    - Класс DefaultTask должен переопределять метод equals. Должны сравниваться все поля, кроме даты.
+
+Youtube:
+    Про метод equals:
+        https://www.youtube.com/watch?v=lWnzRILIEZ0&t=717s&ab_channel=SergeyArkhipovJavaTutorials
+
+Мы договаривались, что поле id у всех объектов будет одинаковое, но для этого задания забудем об этом этапе.
+
+Создай класс тест для интерфейса Task и создай там новый метод:
+
+Task task = TaskCreationService.getInstance().createTask("name", "description");
+Task taskClone = task.clone();
+Assertions.assertTrue(taskClone.equals(task) && taskClone != task);
+
+
+После того, как код выше будет выдавать true, нужно будет реализовать "глубокое" клонирование у интерфейса TaskBoard:
+    - Интерфейс TaskBoard должен наследовать интерфейс Cloneable
+    - Интерфесу TaskBoard необходимо добавить соответствующий метод clone (по аналогии с интерфейсом Task)
+    - Класс DefaultTaskBoard должен переопределять метод clone.
+        Внутри метода нужно будет создавать новый список, куда необходимо склонировать все таски из оригинального
+        таскбоарда
+    - Класс DefaultTaskBoard должен переопределять метод equals.
+        Сначала необходимо сравнить, что списки одинакового размера. После чего, необходимо убедиться с помощью метода
+        equals, что в досках содержатся одинаковые задачи с одинаковом порядке.
+
+
+Следующий код должен выводить в консоль true:
+Task task1 = TaskCreationService.getInstance().createTask("name1", "description1");
+Task task2 = TaskCreationService.getInstance().createTask("name2", "description2");
+Task task3 = TaskCreationService.getInstance().createTask("name3", "description3");
+Task task4 = TaskCreationService.getInstance().createTask("name4", "description4");
+TaskBoard taskBoard = new DefaultTaskBoard();
+
+taskBoard.addTask(task1);
+taskBoard.addTask(task2);
+taskBoard.addTask(task3);
+taskBoard.addTask(task4);
+
+TaskBoard cloneTaskBoard = taskBoard.clone();
+Assertions.assertTrue(cloneTaskBoard.equals(taskBoard) && cloneTaskBoard != taskBoard);
+
+
+
