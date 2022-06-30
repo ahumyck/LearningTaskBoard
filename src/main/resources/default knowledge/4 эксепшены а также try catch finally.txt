@@ -1,0 +1,43 @@
+в java есть механизм эксепшенов (исключений)
+
+базовый класс называется Exception, от него есть трихулион наследников, иерархию сложно запомнить, но все ошибки делятся
+на 2 типа:
+
+1) Runtime ошибки (наследники класса RuntimeException)
+2) Ошибки, которые необходимо обрабатывать в блоке try/catch
+
+Обязательно посмотри
+https://www.youtube.com/watch?v=DElNhj71YCk&ab_channel=alishev - видос часть 1
+https://www.youtube.com/watch?v=jL7-VdBeh9s&ab_channel=alishev - видос часть 2
+
+
+Теперь попробуем применить это к нашей теме
+
+создай новый пакет com.evgeniy.task.exception и создай там новый эксепшн
+NoRewardException extends IllegalArgumentException.
+Метод TaskCreationService#createTask изменим таким образом, что если кто-то в качестве награды передаёт null,
+то выбрасывалось бы это исключение
+
+В классе TaskCreationServiceTest создай новый тест void checkRewardException(), который бы проверял это
+Выглядеть это может примерно так:
+
+Assertions.assertThrowsExactly(NoRewardException.class, new Executable() {
+    @Override
+    public void execute() throws Throwable {
+        TaskCreationService.getInstance().createTask("name", "desc", null);
+    }
+});
+
+
+Отнаследуй интерфейс Task от AutoCloseable
+в методе close пропиши, чтобы статус менялся на CLOSED
+
+Соответственно в мейне попробуй, сработает ли это на самом деле
+
+Ссылка на официальную документацию с примерами, теперь вместо ютуба я буду давать ссылки на неё в некоторых случаях
+https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html#:~:text=The%20try%20%2Dwith%2Dresources%20statement%20is%20a%20try%20statement%20that,the%20end%20of%20the%20statement.
+
+все юнит тесты также должны работать
+
+
+
