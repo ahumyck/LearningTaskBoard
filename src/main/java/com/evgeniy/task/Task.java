@@ -34,4 +34,6 @@ public interface Task {
      * @return Время создания задачи
      */
     Date getCreationTime();
+
+    void setStatus(Status status);
 }

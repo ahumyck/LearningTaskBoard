@@ -1,8 +1,7 @@
 package com.evgeniy.task.creation;
 
 import com.evgeniy.task.Task;
-
-import java.util.concurrent.atomic.AtomicLong;
+import com.evgeniy.task.DefaultTask;
 
 /**
  * Сервис для создания задач
@@ -26,7 +25,6 @@ public class TaskCreationService {
     }
 
     public Task createTask(String name, String description) {
-        //Реализовать самому
         return new DefaultTask(idCounter++, name, description);
     }
 
