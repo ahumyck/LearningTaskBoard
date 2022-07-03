@@ -9,6 +9,7 @@ import com.evgeniy.task.DefaultTask;
 public class TaskCreationService {
 
     private long idCounter = 999_999;
+
     /*
      * На это не обращай внимания особо, потом расскажу зачем это
      */
