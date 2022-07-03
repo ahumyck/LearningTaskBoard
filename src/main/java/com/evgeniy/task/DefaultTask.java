@@ -1,5 +1,6 @@
 package com.evgeniy.task;
 
+import java.time.Instant;
 import java.util.Date;
 
 public class DefaultTask implements Task {
@@ -7,14 +8,14 @@ public class DefaultTask implements Task {
     private String name;
     private String description;
     private Status status;
-    private Date creationDate;
+    private final Date creationDate;
 
     public DefaultTask(Long id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.status = Status.OPEN;
-        this.creationDate = creationDate;
+        this.creationDate = Date.from(Instant.now());
     }
 
     @Override
@@ -43,7 +44,9 @@ public class DefaultTask implements Task {
 
     @Override
     public String toString() {
-        return getId() + ". " + getName() + ". " + getDescription() + ". " + getStatus();
+        StringBuilder sb = new StringBuilder();
+        sb.append("taskId = ").append(getId()).append(", ").append("name = ").append(getName()).append(", ").append("description = ").append(getDescription()).append(", ").append("status = ").append(getStatus()).append(", ").append("creation date = ").append(getCreationTime()).append(".");
+        return sb.toString();
     }
 
     public void setStatus(Status status) {

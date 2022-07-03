@@ -22,35 +22,29 @@ public class DefaultTaskBoard implements TaskBoard {
 
     @Override
     public boolean removeTask(Long taskId) {
-        boolean result = false;
-        for(int i=0; i<tasks.size();i++){
+        for (int i = 0; i < tasks.size(); i++) {
             Task task = tasks.get(i);
-            if (task.getId()==taskId){
-                tasks.remove(i);
-                result = true;
+            if (task.getId().equals(taskId)) {
+                return tasks.remove(task);
             }
-            else{continue;}
         }
-        return result;
+        return false;
     }
 
     @Override
     public List<Task> getAllTask() {
-        return tasks;
+        return Collections.unmodifiableList(tasks);
     }
 
     @Override
     public Task getTaskById(Long taskId) {
-        Task result = null;
-        for(int j=0; j<tasks.size();j++){
-            Task task = tasks.get(j);
-            if (task.getId()==taskId){
-                result = task;
+        for (Task task : tasks) {
+            if (task.getId().equals(taskId)) {
+                return task;
             }
-            else{continue;}
         }
-        return result;
-        }
+        return null;
+    }
 
 
     public List<Task> getTasksByStatus(Status status) {

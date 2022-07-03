@@ -7,6 +7,7 @@ import com.evgeniy.task.board.TaskBoard;
 import com.evgeniy.task.Task;
 import com.evgeniy.task.creation.TaskCreationService;
 
+import java.awt.*;
 import java.util.Date;
 import java.util.List;
 
@@ -28,17 +29,24 @@ public class Main {
         taskBoard.addTask(task3);
         taskBoard.addTask(task4);
         taskBoard.addTask(task5);
-        System.out.println(taskBoard.getAllTask());
+        for (int i = 0; i < taskBoard.getAllTask().size(); i++) {
+            System.out.println(taskBoard.getAllTask().get(i));
+        }
         System.out.println("Change status.");
         task1.setStatus(Status.CLOSED);
         task2.setStatus(Status.CLOSED);
         task5.setStatus(Status.EXPIRED);
-        System.out.println(taskBoard.getAllTask());
-        System.out.println("Show tasks by status");
+        for (int i = 0; i < taskBoard.getAllTask().size(); i++) {
+            System.out.println(taskBoard.getAllTask().get(i));
+        }
+        //System.out.println("Show tasks by status");
         System.out.println("Remove.");
         taskBoard.removeTask(task1);
-        taskBoard.removeTask(1L);
-        System.out.println(taskBoard.getAllTask());
+        taskBoard.removeTask(1000002L);
+        for (int i = 0; i < taskBoard.getAllTask().size(); i++) {
+            System.out.println(taskBoard.getAllTask().get(i));
+        }
+        //System.out.println(taskBoard.getAllTask());
 
         /*
             Сначала полностью прочитай!!!
