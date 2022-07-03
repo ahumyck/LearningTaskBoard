@@ -31,10 +31,10 @@ Assertions.assertTrue(taskClone.equals(task) && taskClone != task);
         таскбоарда
     - Класс DefaultTaskBoard должен переопределять метод equals.
         Сначала необходимо сравнить, что списки одинакового размера. После чего, необходимо убедиться с помощью метода
-        equals, что в досках содержатся одинаковые задачи с одинаковом порядке.
+        equals, что в досках содержатся одинаковые задачи в одинаковом порядке.
 
 
-Следующий код должен выводить в консоль true:
+Следующий юнит тест должен работать:
 Task task1 = TaskCreationService.getInstance().createTask("name1", "description1");
 Task task2 = TaskCreationService.getInstance().createTask("name2", "description2");
 Task task3 = TaskCreationService.getInstance().createTask("name3", "description3");

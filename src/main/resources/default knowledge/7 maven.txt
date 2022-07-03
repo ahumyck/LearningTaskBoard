@@ -1,1 +1,43 @@
--- TODO --
+Изучим что такое мавен
+https://www.youtube.com/watch?v=0uwMKktzixU&t=148s&ab_channel=BoostBrain
+
+Нам нужно создать конфигурацию для запуска, чтобы перед мейном перекомпилировались и автоматически запускались тесты
+
+рядом с молоточком где написано Main, нажимаем стрелочку вниз -> Edit Configuration
++ (Add new configuration) -> Maven. Теперь нужно правильно заполнить поле run
+
+Нужно при запуске:
+1. Делать очистку проекта
+2. Запускать тесты
+3. Упаковать приложение в jar
+4. Запустить мейн - https://www.baeldung.com/maven-java-main-method (пункт 2)
+
+Попробуем теперь добавить какую-нибудь новую библиотеку и заюзать одну из фич в нашем проекте
+
+5. Нужно добавить зависимость на библиотеку GSON версии 2.9.0
+
+Если всё заработало и ты смог запустить мейн, переходи к следующему этапу
+
+Дальше читай аккуратнее, т.к. там ответ если сам не разберешься
+
+
+
+
+1. Делать очистку проекта - clean
+2. Запускать тесты - test
+3. Упаковать приложение в jar - package
+4. Запустить мейн - exec:java -Dexec.mainClass=com.evgeniy.Main
+
+В итоге поле Run должно выглядеть так:
+clean test package exec:java -Dexec.mainClass=com.evgeniy.Main
+
+
+5. В pom.xml взять из ссылки https://mvnrepository.com/artifact/com.google.code.gson/gson/2.9.0
+В блок <dependencies> добавить в любое место
+<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.9.0</version>
+</dependency>
+

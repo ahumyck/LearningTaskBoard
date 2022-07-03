@@ -1,0 +1,15 @@
+Optional - одна из фундаментальных фич, которая пришла вместе с java 8
+https://www.youtube.com/watch?v=k7PlG32BzI8&ab_channel=%D0%A3%D1%80%D0%BE%D0%BA%D0%B8Java
+
+Он нужен, чтобы избавиться от NullPointerException
+Метод getTaskById в TaskBoard на Optional<Task> (если что-то не работает исправить)
+
+У Optional есть 3 основных метода:
+1. Конструктор: Optional.ofNullable(value)
+2. Optional.ifPresent(value lambda) - Если внутри есть не налл значение, то лямбда выполнится, иначе нет
+3. Optional.map(value transformation) - Если внутри есть не налл значение, то выполнится лямбда с трансформацией объекта
+
+Попробуй реализовать следующий код:
+Найти таску из таскбоарда
+Взять из неё статус
+Распечатать в консоли

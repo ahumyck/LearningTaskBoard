@@ -1,1 +1,34 @@
--- TODO --
+В этом задании нам будет необходимо разобраться, как работают мапу: основной класс в джаве
+
+0. Обязательно посмотри следующие два видоса:
+    https://www.youtube.com/watch?v=qlVF2RErvEU&ab_channel=%D0%9F%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%B0%D0%BD%D0%B8%D1%8F
+    https://www.youtube.com/watch?v=kVeib6glUoc&ab_channel=%D0%9F%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%B0%D0%BD%D0%B8%D1%8F
+
+Про хэш мапу очень жестко гоняют на джава интервью, поэтому подробное знание как она устроена и как ей пользоваться - маст хэв
+
+1. В пакете task.board создай два новых интерфейса: CollectionTaskBoard, MapTaskBoard
+2. В пакете com.evgeniy.task.exception создай новый пакет в нем пакет - empty.
+    Внутри этого пакета создай новый эксепшн NotEmptyException extends RuntimeException
+    И ещё два эксепшена: MapNotEmptyException, CollectionNotEmptyException. Отнаследуй их от NotEmptyException
+
+3. Внутри DefaultTaskBoard замени поле List<Task> tasks на Collection<Task> tasks. Всё что будет гореть красным исправь
+    Также переименуй DefaultTaskBoard на CollectionDrivenTaskBoard
+4. Создай новый конструктор в CollectionDrivenTaskBoard, который бы принимал Collection<Task>. Надо проверять, что коллекция
+    пустая, иначе кидай CollectionNotEmptyException
+
+5. Теперь создай MapDrivenTaskBoard и отнаследуй от MapTaskBoard. Теперь тебе необходимо реализовать все методы
+    таким образом, чтобы всё работало аналогично!!! (так же для него надо сделать предыдущие пункты с клонированием,
+    компарабле и т.д.)
+    Если видосы внимательно смотрел, то проблем возникнуть не должно.
+
+    Нужно чтобы было поле final Map<Long, Task> tasks. Нужно создать конструктор,
+    который бы принимал мапу и проверял, что эта мапа пустая, если мапа не пустая,
+    то кидай исключение MapNotEmptyException.
+
+6. Создай юнит тесты на MapDrivenTaskBoard, проверь что работает добавление удаление и геттеры
+
+ДЗ
+Нужно найти ответы на вопросы
+1. Чем отличается HashMap от LinkedHashMap?
+2. Как внутри устроен TreeMap (какая структура данных, какие требования к ключу предъявляются)?
+3. Что такое Set? Как устроены внутри классы HashSet, TreeSet?
