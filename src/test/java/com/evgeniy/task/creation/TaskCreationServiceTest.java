@@ -3,7 +3,6 @@ package com.evgeniy.task.creation;
 import com.evgeniy.task.Task;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 
 class TaskCreationServiceTest {
     @Test

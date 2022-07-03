@@ -45,10 +45,4 @@ public class DefaultTaskBoard implements TaskBoard {
         }
         return null;
     }
-
-
-    public List<Task> getTasksByStatus(Status status) {
-
-        return tasks;
-    }
 }

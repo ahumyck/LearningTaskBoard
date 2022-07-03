@@ -30,11 +30,17 @@ https://www.youtube.com/watch?v=5gU2wrQnbJs&ab_channel=Followthewhiterabbit - в
 7. Изменить метод TaskCreationService#createTest, чтобы у него было такое объявление:
 public <T> Task<T> createTask(String name, String description, Reward<T> reward)
 
+<T> - означает, что будет использоваться общий шаблон
+
 прикол в том, что можно угловые скобки указывать не только на уровне класса (например, Reward<T>), но и на уровне
 метода (как в этом случае).
 
 соответственно если где-то что-то будет непонятно - спрашивай,
 все написанные юнит тесты после этого задания должны успешно выполняться
 если в каком-то тесте тебе поле reward не нужно, то передавай туда null
+
+
+Также вместе с <T> связаны два ключевых слова: extends и super
+https://docs.oracle.com/javase/tutorial/extra/generics/morefun.html
 
 
