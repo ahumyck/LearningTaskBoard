@@ -38,4 +38,6 @@ public interface Task extends Cloneable{
     void setStatus(Status status);
 
     Task clone() throws CloneNotSupportedException;
+
+    boolean equals(Task task);
 }
