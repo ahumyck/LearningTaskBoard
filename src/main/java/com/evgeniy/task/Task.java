@@ -7,7 +7,7 @@ import java.util.Date;
  *
  * По-умолчанию задача иметь Status.OPEN
  */
-public interface Task {
+public interface Task extends Cloneable{
 
     /**
      * @return Возвращает уникальный идентификатор
@@ -36,4 +36,6 @@ public interface Task {
     Date getCreationTime();
 
     void setStatus(Status status);
+
+    Task clone() throws CloneNotSupportedException;
 }
