@@ -20,7 +20,7 @@ class TaskCreationServiceTest {
     }
 
     @Test
-    void TasksAddingCheck(){
+    void tasksAddingCheck(){
         TaskBoard taskBoard = new DefaultTaskBoard();
         Task task1 = TaskCreationService.getInstance().createTask("", "");
         Task task2 = TaskCreationService.getInstance().createTask("", "");
@@ -31,14 +31,14 @@ class TaskCreationServiceTest {
         taskBoard.addTask(task3);
         taskBoard.addTask(task4);
 
-        Assertions.assertNotNull(taskBoard.getTaskById(999999L));
-        Assertions.assertNotNull(taskBoard.getTaskById(1000000L));
-        Assertions.assertNotNull(taskBoard.getTaskById(1000001L));
-        Assertions.assertNotNull(taskBoard.getTaskById(1000002L));
+        Assertions.assertNotNull(taskBoard.getTaskById(task1.getId()));
+        Assertions.assertNotNull(taskBoard.getTaskById(task2.getId()));
+        Assertions.assertNotNull(taskBoard.getTaskById(task3.getId()));
+        Assertions.assertNotNull(taskBoard.getTaskById(task4.getId()));
     }
 
     @Test
-    void TasksRemovingCheck(){
+    void tasksRemovingCheck(){
         TaskBoard taskBoard2 = new DefaultTaskBoard();
         Task task5 = TaskCreationService.getInstance().createTask("", "");
         Task task6 = TaskCreationService.getInstance().createTask("", "");
@@ -51,7 +51,7 @@ class TaskCreationServiceTest {
 
         Assertions.assertTrue(taskBoard2.removeTask(task5));
         Assertions.assertTrue(taskBoard2.removeTask(task8));
-        Assertions.assertNotNull(taskBoard2.getTaskById(1000000L));
-        Assertions.assertNotNull(taskBoard2.getTaskById(1000001L));
+        Assertions.assertNotNull(taskBoard2.getTaskById(task6.getId()));
+        Assertions.assertNotNull(taskBoard2.getTaskById(task7.getId()));
     }
 }

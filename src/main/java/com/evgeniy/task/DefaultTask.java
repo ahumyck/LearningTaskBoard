@@ -52,4 +52,8 @@ public class DefaultTask implements Task {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    public Task clone(){
+        return this;
+    }
 }
