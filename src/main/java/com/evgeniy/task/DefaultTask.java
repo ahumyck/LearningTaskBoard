@@ -54,6 +54,12 @@ public class DefaultTask implements Task {
     }
 
     public Task clone(){
-        return this;
+        DefaultTask task = new DefaultTask(this.id,this.name,this.description);
+        return task;
+    }
+
+    @Override
+    public boolean equals(Task task) {
+        return (this.getId().equals(task.getId()) && this.getName().equals(task.getName()) && this.getDescription().equals(task.getDescription()) && this.getStatus().equals(task.getStatus()));
     }
 }

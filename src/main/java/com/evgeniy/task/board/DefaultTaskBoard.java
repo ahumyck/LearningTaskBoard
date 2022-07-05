@@ -1,6 +1,5 @@
 package com.evgeniy.task.board;
 
-import com.evgeniy.task.Status;
 import com.evgeniy.task.Task;
 
 import java.util.ArrayList;
@@ -44,5 +43,27 @@ public class DefaultTaskBoard implements TaskBoard {
             }
         }
         return null;
+    }
+
+    @Override
+    public TaskBoard clone() throws CloneNotSupportedException {
+        DefaultTaskBoard taskBoard = new DefaultTaskBoard();
+        for (Task task : this.tasks) {
+            taskBoard.addTask(task.clone());
+        }
+        return taskBoard;
+    }
+
+    @Override
+    public boolean equals(TaskBoard taskBoard) {
+        if (taskBoard.getAllTask().size() == this.tasks.size()) {
+            for (Task task : this.tasks) {
+                if (!task.equals(taskBoard.getTaskById(task.getId()))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 }

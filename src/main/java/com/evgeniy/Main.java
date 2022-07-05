@@ -26,6 +26,13 @@ public class Main {
         taskBoard.addTask(task3);
         taskBoard.addTask(task4);
         taskBoard.addTask(task5);
+        /*Task task6 = task1.clone();
+        System.out.println(task1.equals(task6));*/
+        /*TaskBoard cloneTaskBoard = taskBoard.clone();
+        System.out.println(taskBoard.equals(cloneTaskBoard));
+        for (int i = 0; i < taskBoard.getAllTask().size(); i++) {
+            System.out.println(cloneTaskBoard.getAllTask().get(i));
+        }*/
         for (int i = 0; i < taskBoard.getAllTask().size(); i++) {
             System.out.println(taskBoard.getAllTask().get(i));
         }

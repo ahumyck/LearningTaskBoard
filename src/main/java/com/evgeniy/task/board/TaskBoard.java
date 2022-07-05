@@ -4,7 +4,7 @@ import com.evgeniy.task.Task;
 
 import java.util.List;
 
-public interface TaskBoard {
+public interface TaskBoard extends Cloneable {
 
     /**
      * Пытается добавить задачу на доску
@@ -38,4 +38,7 @@ public interface TaskBoard {
      */
     Task getTaskById(Long taskId);
 
+    TaskBoard clone() throws CloneNotSupportedException;
+
+    boolean equals(TaskBoard taskBoard);
 }
