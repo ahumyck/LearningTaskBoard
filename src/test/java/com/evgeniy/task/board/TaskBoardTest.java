@@ -22,6 +22,7 @@ class TaskBoardTest {
         taskBoard.addTask(task4);
 
         TaskBoard cloneTaskBoard = taskBoard.clone();
-        Assertions.assertTrue(cloneTaskBoard.equals(taskBoard) && cloneTaskBoard != taskBoard);
+        Assertions.assertEquals(cloneTaskBoard, taskBoard);
+        Assertions.assertNotSame(cloneTaskBoard, taskBoard);
     }
 }
