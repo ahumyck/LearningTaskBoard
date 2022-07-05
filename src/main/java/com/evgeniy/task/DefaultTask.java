@@ -18,6 +18,11 @@ public class DefaultTask implements Task {
         this.creationDate = Date.from(Instant.now());
     }
 
+    public DefaultTask(Long id, String name, String description, Status status) {
+        this(id, name, description);
+        this.status = status;
+    }
+
     @Override
     public Long getId() {
         return id;
@@ -53,13 +58,25 @@ public class DefaultTask implements Task {
         this.status = status;
     }
 
-    public Task clone(){
-        DefaultTask task = new DefaultTask(this.id,this.name,this.description);
-        return task;
+    @Override
+    public Task clone() throws CloneNotSupportedException {
+        return new DefaultTask(this.id, this.name, this.description, this.status);
     }
 
     @Override
-    public boolean equals(Task task) {
-        return (this.getId().equals(task.getId()) && this.getName().equals(task.getName()) && this.getDescription().equals(task.getDescription()) && this.getStatus().equals(task.getStatus()));
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        } else if (this == obj) {
+            return true;
+        }
+        if (obj instanceof Task task) {
+            return this.getId().equals(task.getId()) &&
+                    this.getName().equals(task.getName()) &&
+                    this.getDescription().equals(task.getDescription()) &&
+                    this.getStatus().equals(task.getStatus());
+        }
+        return false;
     }
 }
+

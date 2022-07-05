@@ -40,5 +40,4 @@ public interface TaskBoard extends Cloneable {
 
     TaskBoard clone() throws CloneNotSupportedException;
 
-    boolean equals(TaskBoard taskBoard);
 }
