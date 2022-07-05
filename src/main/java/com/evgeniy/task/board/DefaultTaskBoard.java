@@ -55,14 +55,22 @@ public class DefaultTaskBoard implements TaskBoard {
     }
 
     @Override
-    public boolean equals(TaskBoard taskBoard) {
-        if (taskBoard.getAllTask().size() == this.tasks.size()) {
-            for (Task task : this.tasks) {
-                if (!task.equals(taskBoard.getTaskById(task.getId()))) {
-                    return false;
-                }
-            }
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        } else if (this == obj) {
             return true;
+        }
+        if (obj instanceof TaskBoard taskBoard) {
+            if (taskBoard.getAllTask().size() == this.tasks.size()) {
+                for (Task task : this.tasks) {
+                    if (!task.equals(taskBoard.getTaskById(task.getId()))) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
         }
         return false;
     }

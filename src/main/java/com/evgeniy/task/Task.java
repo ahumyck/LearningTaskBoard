@@ -39,5 +39,4 @@ public interface Task extends Cloneable{
 
     Task clone() throws CloneNotSupportedException;
 
-    boolean equals(Task task);
 }
