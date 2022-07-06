@@ -4,7 +4,7 @@ import com.evgeniy.task.Task;
 
 import java.util.List;
 
-public interface TaskBoard extends Cloneable {
+public interface TaskBoard extends Cloneable,Iterable<Task> {
 
     /**
      * Пытается добавить задачу на доску
