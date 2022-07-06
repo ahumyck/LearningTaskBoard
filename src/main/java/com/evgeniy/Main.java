@@ -30,7 +30,7 @@ public class Main {
         taskBoard.sort(new Comparator<Task>() {
             @Override
             public int compare(Task t1, Task t2) {
-                int res = t1.getId().intValue() - t2.getId().intValue();
+                int res = Long.signum(t1.getId() - t2.getId());
                 if (res == 0) {
                     return t1.getName().compareTo(t2.getName());
                 }

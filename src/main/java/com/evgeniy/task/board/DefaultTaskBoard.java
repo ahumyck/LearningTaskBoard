@@ -62,7 +62,7 @@ public class DefaultTaskBoard implements TaskBoard {
 
     @Override
     public void sort(Comparator<Task> comparator) {
-        Collections.sort(this.tasks, comparator);
+        this.tasks.sort(comparator);
     }
 
     @Override
