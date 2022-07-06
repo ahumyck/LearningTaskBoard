@@ -4,6 +4,7 @@ import com.evgeniy.task.Task;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class DefaultTaskBoard implements TaskBoard {
@@ -52,6 +53,16 @@ public class DefaultTaskBoard implements TaskBoard {
             taskBoard.addTask(task.clone());
         }
         return taskBoard;
+    }
+
+    @Override
+    public void sort() {
+        Collections.sort(this.tasks);
+    }
+
+    @Override
+    public void sort(Comparator<Task> comparator) {
+        Collections.sort(this.tasks, comparator);
     }
 
     @Override

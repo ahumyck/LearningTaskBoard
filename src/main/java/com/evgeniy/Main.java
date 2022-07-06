@@ -7,6 +7,7 @@ import com.evgeniy.task.board.TaskBoard;
 import com.evgeniy.task.creation.TaskCreationService;
 
 import java.io.IOException;
+import java.util.Comparator;
 
 public class Main {
 
@@ -26,6 +27,17 @@ public class Main {
         taskBoard.addTask(task3);
         taskBoard.addTask(task4);
         taskBoard.addTask(task5);
+        taskBoard.sort(new Comparator<Task>() {
+            @Override
+            public int compare(Task t1, Task t2) {
+                int res = t1.getId().intValue() - t2.getId().intValue();
+                if (res == 0) {
+                    return t1.getName().compareTo(t2.getName());
+                }
+                return res;
+            }
+        });
+
         /*Task task6 = task1.clone();
         System.out.println(task1.equals(task6));*/
         /*TaskBoard cloneTaskBoard = taskBoard.clone();
