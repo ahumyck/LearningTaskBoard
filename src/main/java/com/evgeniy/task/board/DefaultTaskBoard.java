@@ -4,6 +4,7 @@ import com.evgeniy.task.Task;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Comparator;
 import java.util.List;
 
@@ -22,8 +23,7 @@ public class DefaultTaskBoard implements TaskBoard {
 
     @Override
     public boolean removeTask(Long taskId) {
-        for (int i = 0; i < tasks.size(); i++) {
-            Task task = tasks.get(i);
+        for (Task task : tasks) {
             if (task.getId().equals(taskId)) {
                 return tasks.remove(task);
             }
@@ -84,5 +84,10 @@ public class DefaultTaskBoard implements TaskBoard {
 
         }
         return false;
+    }
+
+    @Override
+    public Iterator<Task> iterator() {
+        return this.tasks.iterator();
     }
 }

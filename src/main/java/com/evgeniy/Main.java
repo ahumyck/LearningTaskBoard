@@ -45,8 +45,8 @@ public class Main {
         for (int i = 0; i < taskBoard.getAllTask().size(); i++) {
             System.out.println(cloneTaskBoard.getAllTask().get(i));
         }*/
-        for (int i = 0; i < taskBoard.getAllTask().size(); i++) {
-            System.out.println(taskBoard.getAllTask().get(i));
+        for (Task task:taskBoard) {
+            System.out.println(task);
         }
         System.out.println("Change status.");
         task1.setStatus(Status.CLOSED);
