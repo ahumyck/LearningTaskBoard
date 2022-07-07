@@ -2,6 +2,7 @@ package com.evgeniy.task.board;
 
 import com.evgeniy.task.Task;
 
+import java.util.Comparator;
 import java.util.List;
 
 public interface TaskBoard extends Cloneable,Iterable<Task> {
@@ -39,5 +40,9 @@ public interface TaskBoard extends Cloneable,Iterable<Task> {
     Task getTaskById(Long taskId);
 
     TaskBoard clone() throws CloneNotSupportedException;
+
+    void sort();
+
+    void sort(Comparator<Task> comparator);
 
 }

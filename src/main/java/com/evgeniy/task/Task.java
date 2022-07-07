@@ -4,10 +4,10 @@ import java.util.Date;
 
 /**
  * Задача из таскбоарда
- *
+ * <p>
  * По-умолчанию задача иметь Status.OPEN
  */
-public interface Task extends Cloneable{
+public interface Task extends Cloneable, Comparable<Task> {
 
     /**
      * @return Возвращает уникальный идентификатор
@@ -15,7 +15,6 @@ public interface Task extends Cloneable{
     Long getId();
 
     /**
-     *
      * @return Имя задачи
      */
     String getName();

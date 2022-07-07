@@ -78,5 +78,11 @@ public class DefaultTask implements Task {
         }
         return false;
     }
+
+    @Override
+    public int compareTo(Task task) {
+        return this.getName().compareTo(task.getName());
+    }
+
 }
 
