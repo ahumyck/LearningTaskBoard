@@ -13,3 +13,49 @@ https://www.youtube.com/watch?v=k7PlG32BzI8&ab_channel=%D0%A3%D1%80%D0%BE%D0%BA%
 Найти таску из таскбоарда
 Взять из неё статус
 Распечатать в консоли
+
+
+
+Теперь надо переписать интерфейс Reward. Оставить его пустым. Убрать дженерик из объявления. Удалить DefaultReward
+
+Сделать 3 имплементации класса Reward
+1. MoneyReward - Денежное вознаграждение
+2. BadgeReward - Вознаграждение в виде значка
+3. PromiseReward - обещание о вознаграждении. когда-нибудь завтра наградим
+
+У классов нужно соответственно добавить необходимые поля, переопределить метод toString
+
+
+Соответственно из Task, TaskBoard, всех их наследников убрать дженерик <T>, чтобы программа компилировалась и работала
+Сигнатуру метода Task.getReward изменить на
+
+<T extends Reward> Optional<T> getReward(Class<T> rewardType);
+
+В чем смысл?
+
+Смысл в том, что мы будем возращать награду только нужного типа (класса). Тебе необходимо разобраться как с помощью
+объекта класса Class<T> можно сделать аналогичную операцию instanceof и каста. Гугл в помощь
+
+
+В результате должно быть как-то так
+Task task1 = TaskCreationService
+                    .getInstance()
+                    .createTask(
+                        "Add tasks",
+                        "Add some tasks for test",
+                        new BadgeReward("Hello World")
+                    );
+
+
+System.out.println(task1.getReward(MoneyReward.class)); //Optional.empty
+System.out.println(task1.getReward(BadgeReward.class)); //Optional[[Reward badge = $badge name]]
+
+
+
+Необходимо написать юнит тест, который бы делал проверял, что всё работает
+
+1. Создаем таску с нужным типом награды
+2. Получаем награду из таски нужного типа
+3. Проверяем, что Optional не пустой
+4. Достаем из Optional значение, и проверяем, что классы совпадают
+5. Достаем награду другого типа и убеждаемся, что Optional пустой
