@@ -1,5 +1,7 @@
 package com.evgeniy.task;
 
+import com.evgeniy.task.reward.Reward;
+
 import java.util.Date;
 
 /**
@@ -7,7 +9,7 @@ import java.util.Date;
  * <p>
  * По-умолчанию задача иметь Status.OPEN
  */
-public interface Task extends Cloneable, Comparable<Task> {
+public interface Task<T> extends Cloneable, Comparable<Task<T>> {
 
     /**
      * @return Возвращает уникальный идентификатор
@@ -36,6 +38,8 @@ public interface Task extends Cloneable, Comparable<Task> {
 
     void setStatus(Status status);
 
-    Task clone() throws CloneNotSupportedException;
+    Task<T> clone() throws CloneNotSupportedException;
+
+    <T> Reward<T> getReward();
 
 }

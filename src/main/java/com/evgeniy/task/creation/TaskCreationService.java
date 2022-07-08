@@ -2,6 +2,7 @@ package com.evgeniy.task.creation;
 
 import com.evgeniy.task.Task;
 import com.evgeniy.task.DefaultTask;
+import com.evgeniy.task.reward.Reward;
 
 /**
  * Сервис для создания задач
@@ -24,8 +25,8 @@ public class TaskCreationService {
         return InnerHolder.TASK_CREATION_SERVICE;
     }
 
-    public Task createTask(String name, String description) {
-        return new DefaultTask(idCounter++, name, description);
+    public <T> Task<T> createTask(String name, String description, Reward<T> reward) {
+        return new DefaultTask(idCounter++, name, description,reward);
     }
 
 }

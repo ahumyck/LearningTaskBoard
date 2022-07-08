@@ -9,10 +9,10 @@ import org.junit.jupiter.api.Test;
 class TaskCreationServiceTest {
     @Test
     void createIdSequence() {
-        Task task1 = TaskCreationService.getInstance().createTask("", "");
-        Task task2 = TaskCreationService.getInstance().createTask("", "");
-        Task task3 = TaskCreationService.getInstance().createTask("", "");
-        Task task4 = TaskCreationService.getInstance().createTask("", "");
+        Task<Long> task1 = TaskCreationService.getInstance().createTask("", "", null);
+        Task<Long> task2 = TaskCreationService.getInstance().createTask("", "", null);
+        Task<Long> task3 = TaskCreationService.getInstance().createTask("", "", null);
+        Task<Long> task4 = TaskCreationService.getInstance().createTask("", "", null);
 
         Assertions.assertEquals(task2.getId() - task1.getId(), 1);
         Assertions.assertEquals(task3.getId() - task2.getId(), 1);
@@ -21,11 +21,12 @@ class TaskCreationServiceTest {
 
     @Test
     void tasksAddingCheck(){
-        TaskBoard taskBoard = new DefaultTaskBoard();
-        Task task1 = TaskCreationService.getInstance().createTask("", "");
-        Task task2 = TaskCreationService.getInstance().createTask("", "");
-        Task task3 = TaskCreationService.getInstance().createTask("", "");
-        Task task4 = TaskCreationService.getInstance().createTask("", "");
+        TaskBoard<Long> taskBoard = new DefaultTaskBoard<>();
+
+        Task<Long> task1 = TaskCreationService.getInstance().createTask("", "", null);
+        Task<Long> task2 = TaskCreationService.getInstance().createTask("", "", null);
+        Task<Long> task3 = TaskCreationService.getInstance().createTask("", "", null);
+        Task<Long> task4 = TaskCreationService.getInstance().createTask("", "", null);
         taskBoard.addTask(task1);
         taskBoard.addTask(task2);
         taskBoard.addTask(task3);
@@ -39,11 +40,11 @@ class TaskCreationServiceTest {
 
     @Test
     void tasksRemovingCheck(){
-        TaskBoard taskBoard2 = new DefaultTaskBoard();
-        Task task5 = TaskCreationService.getInstance().createTask("", "");
-        Task task6 = TaskCreationService.getInstance().createTask("", "");
-        Task task7 = TaskCreationService.getInstance().createTask("", "");
-        Task task8 = TaskCreationService.getInstance().createTask("", "");
+        TaskBoard<Long> taskBoard2 = new DefaultTaskBoard<>();
+        Task<Long> task5 = TaskCreationService.getInstance().createTask("", "", null);
+        Task<Long> task6 = TaskCreationService.getInstance().createTask("", "", null);
+        Task<Long> task7 = TaskCreationService.getInstance().createTask("", "", null);
+        Task<Long> task8 = TaskCreationService.getInstance().createTask("", "", null);
         taskBoard2.addTask(task5);
         taskBoard2.addTask(task6);
         taskBoard2.addTask(task7);

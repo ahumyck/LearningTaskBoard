@@ -1,25 +1,29 @@
 package com.evgeniy.task;
 
+import com.evgeniy.task.reward.Reward;
+
 import java.time.Instant;
 import java.util.Date;
 
-public class DefaultTask implements Task {
+public class DefaultTask<T> implements Task<T> {
     private final Long id;
     private String name;
     private String description;
     private Status status;
     private final Date creationDate;
+    Reward<T> reward;
 
-    public DefaultTask(Long id, String name, String description) {
+    public DefaultTask(Long id, String name, String description, Reward<T> reward) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.status = Status.OPEN;
         this.creationDate = Date.from(Instant.now());
+        this.reward = reward;
     }
 
-    public DefaultTask(Long id, String name, String description, Status status) {
-        this(id, name, description);
+    public DefaultTask(Long id, String name, String description,Reward<T> reward, Status status) {
+        this(id, name, description,reward);
         this.status = status;
     }
 
@@ -50,7 +54,7 @@ public class DefaultTask implements Task {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("taskId = ").append(getId()).append(", ").append("name = ").append(getName()).append(", ").append("description = ").append(getDescription()).append(", ").append("status = ").append(getStatus()).append(", ").append("creation date = ").append(getCreationTime()).append(".");
+        sb.append("taskId = ").append(getId()).append(", ").append("name = ").append(getName()).append(", ").append("description = ").append(getDescription()).append(", ").append("status = ").append(getStatus()).append(", ").append("creation date = ").append(getCreationTime()).append(", ").append("reward = ").append(reward.getActualReward()).append(".");
         return sb.toString();
     }
 
@@ -59,8 +63,12 @@ public class DefaultTask implements Task {
     }
 
     @Override
-    public Task clone() throws CloneNotSupportedException {
-        return new DefaultTask(this.id, this.name, this.description, this.status);
+    public Task<T> clone() throws CloneNotSupportedException {
+        return new DefaultTask<>(this.id, this.name, this.description,this.reward, this.status);
+    }
+
+    public Reward<T> getReward() {
+        return reward;
     }
 
     @Override
@@ -80,7 +88,7 @@ public class DefaultTask implements Task {
     }
 
     @Override
-    public int compareTo(Task task) {
+    public int compareTo(Task<T> task) {
         return this.getName().compareTo(task.getName());
     }
 

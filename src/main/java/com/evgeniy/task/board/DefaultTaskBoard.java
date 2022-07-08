@@ -8,22 +8,22 @@ import java.util.Iterator;
 import java.util.Comparator;
 import java.util.List;
 
-public class DefaultTaskBoard implements TaskBoard {
-    private List<Task> tasks = new ArrayList<>();
+public class DefaultTaskBoard<T> implements TaskBoard<T> {
+    private List<Task<T>> tasks = new ArrayList<>();
 
     @Override
-    public boolean addTask(Task task) {
+    public boolean addTask(Task<T> task) {
         return tasks.add(task);
     }
 
     @Override
-    public boolean removeTask(Task task) {
+    public boolean removeTask(Task<T> task) {
         return removeTask(task.getId());
     }
 
     @Override
     public boolean removeTask(Long taskId) {
-        for (Task task : tasks) {
+        for (Task<T> task : tasks) {
             if (task.getId().equals(taskId)) {
                 return tasks.remove(task);
             }
@@ -32,13 +32,13 @@ public class DefaultTaskBoard implements TaskBoard {
     }
 
     @Override
-    public List<Task> getAllTask() {
+    public List<Task<T>> getAllTask() {
         return Collections.unmodifiableList(tasks);
     }
 
     @Override
-    public Task getTaskById(Long taskId) {
-        for (Task task : tasks) {
+    public Task<T> getTaskById(Long taskId) {
+        for (Task<T> task : tasks) {
             if (task.getId().equals(taskId)) {
                 return task;
             }
@@ -47,9 +47,9 @@ public class DefaultTaskBoard implements TaskBoard {
     }
 
     @Override
-    public TaskBoard clone() throws CloneNotSupportedException {
-        DefaultTaskBoard taskBoard = new DefaultTaskBoard();
-        for (Task task : this.tasks) {
+    public TaskBoard<T> clone() throws CloneNotSupportedException {
+        DefaultTaskBoard<T> taskBoard = new DefaultTaskBoard<>();
+        for (Task<T> task : this.tasks) {
             taskBoard.addTask(task.clone());
         }
         return taskBoard;
@@ -61,7 +61,7 @@ public class DefaultTaskBoard implements TaskBoard {
     }
 
     @Override
-    public void sort(Comparator<Task> comparator) {
+    public void sort(Comparator<Task<T>> comparator) {
         this.tasks.sort(comparator);
     }
 
@@ -74,7 +74,7 @@ public class DefaultTaskBoard implements TaskBoard {
         }
         if (obj instanceof TaskBoard taskBoard) {
             if (taskBoard.getAllTask().size() == this.tasks.size()) {
-                for (Task task : this.tasks) {
+                for (Task<T> task : this.tasks) {
                     if (!task.equals(taskBoard.getTaskById(task.getId()))) {
                         return false;
                     }
@@ -87,7 +87,7 @@ public class DefaultTaskBoard implements TaskBoard {
     }
 
     @Override
-    public Iterator<Task> iterator() {
+    public Iterator<Task<T>> iterator() {
         return this.tasks.iterator();
     }
 }
