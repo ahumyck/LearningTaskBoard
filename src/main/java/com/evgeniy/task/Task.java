@@ -3,13 +3,14 @@ package com.evgeniy.task;
 import com.evgeniy.task.reward.Reward;
 
 import java.util.Date;
+import java.util.Optional;
 
 /**
  * Задача из таскбоарда
  * <p>
  * По-умолчанию задача иметь Status.OPEN
  */
-public interface Task<T> extends Cloneable, Comparable<Task<T>> {
+public interface Task extends Cloneable,Comparable<Task> {
 
     /**
      * @return Возвращает уникальный идентификатор
@@ -38,8 +39,9 @@ public interface Task<T> extends Cloneable, Comparable<Task<T>> {
 
     void setStatus(Status status);
 
-    Task<T> clone() throws CloneNotSupportedException;
+    Task clone() throws CloneNotSupportedException;
 
-    <T> Reward<T> getReward();
+    <T extends Reward> Optional<T> getReward(Class<T> rewardType);
+
 
 }

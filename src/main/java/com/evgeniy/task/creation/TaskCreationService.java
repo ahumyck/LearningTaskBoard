@@ -25,7 +25,7 @@ public class TaskCreationService {
         return InnerHolder.TASK_CREATION_SERVICE;
     }
 
-    public <T> Task<T> createTask(String name, String description, Reward<T> reward) {
+    public Task createTask(String name, String description, Reward reward) {
         return new DefaultTask(idCounter++, name, description,reward);
     }
 

@@ -1,19 +1,23 @@
 package com.evgeniy.task;
 
+import com.evgeniy.task.reward.BadgeReward;
+import com.evgeniy.task.reward.MoneyReward;
+import com.evgeniy.task.reward.PromiseReward;
 import com.evgeniy.task.reward.Reward;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.Optional;
 
-public class DefaultTask<T> implements Task<T> {
+public class DefaultTask implements Task {
     private final Long id;
     private String name;
     private String description;
     private Status status;
     private final Date creationDate;
-    Reward<T> reward;
+    private Reward reward;
 
-    public DefaultTask(Long id, String name, String description, Reward<T> reward) {
+    public DefaultTask(Long id, String name, String description, Reward reward) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -22,8 +26,8 @@ public class DefaultTask<T> implements Task<T> {
         this.reward = reward;
     }
 
-    public DefaultTask(Long id, String name, String description,Reward<T> reward, Status status) {
-        this(id, name, description,reward);
+    public DefaultTask(Long id, String name, String description, Reward reward, Status status) {
+        this(id, name, description, reward);
         this.status = status;
     }
 
@@ -54,7 +58,7 @@ public class DefaultTask<T> implements Task<T> {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("taskId = ").append(getId()).append(", ").append("name = ").append(getName()).append(", ").append("description = ").append(getDescription()).append(", ").append("status = ").append(getStatus()).append(", ").append("creation date = ").append(getCreationTime()).append(", ").append("reward = ").append(reward.getActualReward()).append(".");
+        sb.append("taskId = ").append(getId()).append(", ").append("name = ").append(getName()).append(", ").append("description = ").append(getDescription()).append(", ").append("status = ").append(getStatus()).append(", ").append("creation date = ").append(getCreationTime()).append(", ").append("reward = ").append(getReward(this.reward.getClass()).get()).append(".");
         return sb.toString();
     }
 
@@ -63,12 +67,15 @@ public class DefaultTask<T> implements Task<T> {
     }
 
     @Override
-    public Task<T> clone() throws CloneNotSupportedException {
-        return new DefaultTask<>(this.id, this.name, this.description,this.reward, this.status);
+    public Task clone() throws CloneNotSupportedException {
+        return new DefaultTask(this.id, this.name, this.description, this.reward, this.status);
     }
 
-    public Reward<T> getReward() {
-        return reward;
+    public <T extends Reward> Optional<T> getReward(Class<T> rewardType) {
+       if(this.reward.getClass()!=rewardType){
+           return Optional.empty();
+       }
+        return (Optional<T>) Optional.of(this.reward);
     }
 
     @Override
@@ -88,7 +95,7 @@ public class DefaultTask<T> implements Task<T> {
     }
 
     @Override
-    public int compareTo(Task<T> task) {
+    public int compareTo(Task task) {
         return this.getName().compareTo(task.getName());
     }
 
