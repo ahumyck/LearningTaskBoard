@@ -72,10 +72,10 @@ public class DefaultTask implements Task {
     }
 
     public <T extends Reward> Optional<T> getReward(Class<T> rewardType) {
-       if(this.reward.getClass()!=rewardType){
+       if(!rewardType.isInstance(this)){
            return Optional.empty();
        }
-        return (Optional<T>) Optional.of(this.reward);
+        return Optional.of(rewardType.cast(this.reward));
     }
 
     @Override

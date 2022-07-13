@@ -9,8 +9,6 @@ public class MoneyReward implements Reward {
     }
 
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(money);
-        return sb.toString();
+        return Long.toString(money);
     }
 }

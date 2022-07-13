@@ -9,8 +9,6 @@ public class PromiseReward implements Reward{
     }
 
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(promise);
-    return sb.toString();
+    return promise;
     }
 }

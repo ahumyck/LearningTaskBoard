@@ -9,8 +9,6 @@ public class BadgeReward implements Reward{
     }
 
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(badge);
-        return sb.toString();
+        return badge;
     }
 }
