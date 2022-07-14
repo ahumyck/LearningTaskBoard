@@ -3,8 +3,11 @@ package com.evgeniy.task.creation;
 import com.evgeniy.task.Task;
 import com.evgeniy.task.board.DefaultTaskBoard;
 import com.evgeniy.task.board.TaskBoard;
+import com.evgeniy.task.exception.NoRewardException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
+
 
 class TaskCreationServiceTest {
     @Test
@@ -54,5 +57,15 @@ class TaskCreationServiceTest {
         Assertions.assertTrue(taskBoard2.removeTask(task8));
         Assertions.assertNotNull(taskBoard2.getTaskById(task6.getId()));
         Assertions.assertNotNull(taskBoard2.getTaskById(task7.getId()));
+    }
+
+    @Test
+    void checkRewardException(){
+        Assertions.assertThrowsExactly(NoRewardException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                TaskCreationService.getInstance().createTask("name", "desc", null);
+            }
+        });
     }
 }

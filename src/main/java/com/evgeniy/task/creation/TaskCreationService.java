@@ -2,6 +2,7 @@ package com.evgeniy.task.creation;
 
 import com.evgeniy.task.Task;
 import com.evgeniy.task.DefaultTask;
+import com.evgeniy.task.exception.NoRewardException;
 import com.evgeniy.task.reward.Reward;
 
 /**
@@ -25,7 +26,10 @@ public class TaskCreationService {
         return InnerHolder.TASK_CREATION_SERVICE;
     }
 
-    public Task createTask(String name, String description, Reward reward) {
+    public Task createTask(String name, String description, Reward reward) throws NoRewardException {
+        if (reward==null){
+            throw new NoRewardException("Reward can't be 'null'");
+        }
         return new DefaultTask(idCounter++, name, description,reward);
     }
 
