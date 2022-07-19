@@ -4,6 +4,7 @@ import com.evgeniy.task.Task;
 import com.evgeniy.task.board.DefaultTaskBoard;
 import com.evgeniy.task.board.TaskBoard;
 import com.evgeniy.task.exception.NoRewardException;
+import com.evgeniy.task.reward.MockReward;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -12,10 +13,10 @@ import org.junit.jupiter.api.function.Executable;
 class TaskCreationServiceTest {
     @Test
     void createIdSequence() {
-        Task task1 = TaskCreationService.getInstance().createTask("", "", null);
-        Task task2 = TaskCreationService.getInstance().createTask("", "", null);
-        Task task3 = TaskCreationService.getInstance().createTask("", "", null);
-        Task task4 = TaskCreationService.getInstance().createTask("", "", null);
+        Task task1 = TaskCreationService.getInstance().createTask("", "", new MockReward());
+        Task task2 = TaskCreationService.getInstance().createTask("", "", new MockReward());
+        Task task3 = TaskCreationService.getInstance().createTask("", "", new MockReward());
+        Task task4 = TaskCreationService.getInstance().createTask("", "", new MockReward());
 
         Assertions.assertEquals(task2.getId() - task1.getId(), 1);
         Assertions.assertEquals(task3.getId() - task2.getId(), 1);
@@ -26,10 +27,10 @@ class TaskCreationServiceTest {
     void tasksAddingCheck(){
         TaskBoard taskBoard = new DefaultTaskBoard();
 
-        Task task1 = TaskCreationService.getInstance().createTask("", "", null);
-        Task task2 = TaskCreationService.getInstance().createTask("", "", null);
-        Task task3 = TaskCreationService.getInstance().createTask("", "", null);
-        Task task4 = TaskCreationService.getInstance().createTask("", "", null);
+        Task task1 = TaskCreationService.getInstance().createTask("", "", new MockReward());
+        Task task2 = TaskCreationService.getInstance().createTask("", "", new MockReward());
+        Task task3 = TaskCreationService.getInstance().createTask("", "", new MockReward());
+        Task task4 = TaskCreationService.getInstance().createTask("", "", new MockReward());
         taskBoard.addTask(task1);
         taskBoard.addTask(task2);
         taskBoard.addTask(task3);
@@ -44,10 +45,10 @@ class TaskCreationServiceTest {
     @Test
     void tasksRemovingCheck(){
         TaskBoard taskBoard2 = new DefaultTaskBoard();
-        Task task5 = TaskCreationService.getInstance().createTask("", "", null);
-        Task task6 = TaskCreationService.getInstance().createTask("", "", null);
-        Task task7 = TaskCreationService.getInstance().createTask("", "", null);
-        Task task8 = TaskCreationService.getInstance().createTask("", "", null);
+        Task task5 = TaskCreationService.getInstance().createTask("", "", new MockReward());
+        Task task6 = TaskCreationService.getInstance().createTask("", "", new MockReward());
+        Task task7 = TaskCreationService.getInstance().createTask("", "", new MockReward());
+        Task task8 = TaskCreationService.getInstance().createTask("", "", new MockReward());
         taskBoard2.addTask(task5);
         taskBoard2.addTask(task6);
         taskBoard2.addTask(task7);

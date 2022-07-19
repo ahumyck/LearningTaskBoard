@@ -25,7 +25,7 @@ public class Main {
         Reward reward3 = new DefaultReward<>(2000L);
         Reward reward4 = new DefaultReward<>(2500L);
         Reward reward5 = new DefaultReward<>(3000L);*/
-        Task task1 = TaskCreationService.getInstance().createTask("Add tasks", "Add some tasks for test", null /*new MoneyReward(1000L)*/);
+        Task task1 = TaskCreationService.getInstance().createTask("Add tasks", "Add some tasks for test", new MoneyReward(1000L));
         Task task2 = TaskCreationService.getInstance().createTask("Show all tasks", "Show all added tasks for test", new BadgeReward("Gold badge"));
         Task task3 = TaskCreationService.getInstance().createTask("Remove any task", "Remove some tasks for test", new PromiseReward("Reward next week"));
         Task task4 = TaskCreationService.getInstance().createTask("Change task's status", "Change status of any task for test", new MoneyReward(2000L));
@@ -63,7 +63,7 @@ public class Main {
         }
 
         Optional<Task> taskGet = taskBoard.getTaskById(1000002L);
-        System.out.println(taskGet.get().getStatus());
+        taskGet.ifPresent(task -> System.out.println(task.getStatus()));
         /*System.out.println("Change status.");
         task1.setStatus(Status.CLOSED);
         task2.setStatus(Status.CLOSED);
