@@ -4,22 +4,23 @@ import com.evgeniy.task.Task;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
-public interface TaskBoard<T> extends Cloneable,Iterable<Task<T>> {
+public interface TaskBoard extends Cloneable,Iterable<Task> {
 
     /**
      * Пытается добавить задачу на доску
      *
      * @return true - если получилось добавить, иначе - false
      */
-    boolean addTask(Task<T> task);
+    boolean addTask(Task task);
 
     /**
      * Пытается удалить переданную задачу из доски
      *
      * @return true - если получилось удалить, иначе - false
      */
-    boolean removeTask(Task<T> task);
+    boolean removeTask(Task task);
 
     /**
      * Пытается удалить задачу из доски по айди задачи
@@ -31,18 +32,18 @@ public interface TaskBoard<T> extends Cloneable,Iterable<Task<T>> {
     /**
      * @return Список всех задач из доски
      */
-    List<Task<T>> getAllTask();
+    List<Task> getAllTask();
 
     /**
      * @param taskId - уникальный идентификатор таски
      * @return Задача из таскбоарда
      */
-    Task<T> getTaskById(Long taskId);
+    Optional<Task> getTaskById(Long taskId);
 
-    TaskBoard<T> clone() throws CloneNotSupportedException;
+    TaskBoard clone() throws CloneNotSupportedException;
 
     void sort();
 
-    void sort(Comparator<Task<T>> comparator);
+    void sort(Comparator<Task> comparator);
 
 }

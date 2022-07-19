@@ -2,28 +2,24 @@ package com.evgeniy.task.board;
 
 import com.evgeniy.task.Task;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
-public class DefaultTaskBoard<T> implements TaskBoard<T> {
-    private List<Task<T>> tasks = new ArrayList<>();
+public class DefaultTaskBoard implements TaskBoard {
+    private List<Task> tasks = new ArrayList<>();
 
     @Override
-    public boolean addTask(Task<T> task) {
+    public boolean addTask(Task task) {
         return tasks.add(task);
     }
 
     @Override
-    public boolean removeTask(Task<T> task) {
+    public boolean removeTask(Task task) {
         return removeTask(task.getId());
     }
 
     @Override
     public boolean removeTask(Long taskId) {
-        for (Task<T> task : tasks) {
+        for (Task task : tasks) {
             if (task.getId().equals(taskId)) {
                 return tasks.remove(task);
             }
@@ -32,24 +28,24 @@ public class DefaultTaskBoard<T> implements TaskBoard<T> {
     }
 
     @Override
-    public List<Task<T>> getAllTask() {
+    public List<Task> getAllTask() {
         return Collections.unmodifiableList(tasks);
     }
 
     @Override
-    public Task<T> getTaskById(Long taskId) {
-        for (Task<T> task : tasks) {
+    public Optional<Task> getTaskById(Long taskId) {
+        for (Task task : tasks) {
             if (task.getId().equals(taskId)) {
-                return task;
+                return Optional.of(task);
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override
-    public TaskBoard<T> clone() throws CloneNotSupportedException {
-        DefaultTaskBoard<T> taskBoard = new DefaultTaskBoard<>();
-        for (Task<T> task : this.tasks) {
+    public TaskBoard clone() throws CloneNotSupportedException {
+        DefaultTaskBoard taskBoard = new DefaultTaskBoard();
+        for (Task task : this.tasks) {
             taskBoard.addTask(task.clone());
         }
         return taskBoard;
@@ -61,7 +57,7 @@ public class DefaultTaskBoard<T> implements TaskBoard<T> {
     }
 
     @Override
-    public void sort(Comparator<Task<T>> comparator) {
+    public void sort(Comparator<Task> comparator) {
         this.tasks.sort(comparator);
     }
 
@@ -74,8 +70,8 @@ public class DefaultTaskBoard<T> implements TaskBoard<T> {
         }
         if (obj instanceof TaskBoard taskBoard) {
             if (taskBoard.getAllTask().size() == this.tasks.size()) {
-                for (Task<T> task : this.tasks) {
-                    if (!task.equals(taskBoard.getTaskById(task.getId()))) {
+                for (Task task : this.tasks) {
+                    if (!task.equals(taskBoard.getTaskById(task.getId()).get())) {
                         return false;
                     }
                 }
@@ -87,7 +83,7 @@ public class DefaultTaskBoard<T> implements TaskBoard<T> {
     }
 
     @Override
-    public Iterator<Task<T>> iterator() {
+    public Iterator<Task> iterator() {
         return this.tasks.iterator();
     }
 }
