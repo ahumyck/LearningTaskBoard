@@ -1,6 +1,10 @@
-package com.evgeniy.task.reward;
+package com.evgeniy.task;
 
-public class MockReward implements Reward {
+import com.evgeniy.task.reward.Reward;
+
+import java.io.Serializable;
+
+public class MockReward implements Reward, Serializable {
 
 
     private final long mock;

@@ -1,6 +1,8 @@
 package com.evgeniy.task.reward;
 
-public class PromiseReward implements Reward{
+import java.io.Serializable;
+
+public class PromiseReward implements Reward, Serializable {
 
     private String promise;
 

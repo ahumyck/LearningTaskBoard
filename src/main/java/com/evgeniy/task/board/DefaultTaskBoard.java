@@ -2,9 +2,10 @@ package com.evgeniy.task.board;
 
 import com.evgeniy.task.Task;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class DefaultTaskBoard implements TaskBoard {
+public class DefaultTaskBoard implements TaskBoard, Serializable {
     private List<Task> tasks = new ArrayList<>();
 
     @Override

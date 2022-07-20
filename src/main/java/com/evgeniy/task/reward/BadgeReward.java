@@ -1,6 +1,8 @@
 package com.evgeniy.task.reward;
 
-public class BadgeReward implements Reward{
+import java.io.Serializable;
+
+public class BadgeReward implements Reward, Serializable {
 
     private String badge;
 
