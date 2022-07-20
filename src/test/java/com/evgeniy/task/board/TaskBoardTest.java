@@ -2,7 +2,7 @@ package com.evgeniy.task.board;
 
 import com.evgeniy.task.Task;
 import com.evgeniy.task.creation.TaskCreationService;
-import com.evgeniy.task.reward.MockReward;
+import com.evgeniy.task.creation.MockReward;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

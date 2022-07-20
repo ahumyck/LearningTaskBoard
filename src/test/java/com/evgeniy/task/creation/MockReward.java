@@ -1,4 +1,6 @@
-package com.evgeniy.task.reward;
+package com.evgeniy.task.creation;
+
+import com.evgeniy.task.reward.Reward;
 
 public class MockReward implements Reward {
 

@@ -2,7 +2,7 @@ package com.evgeniy.task;
 
 import com.evgeniy.task.creation.TaskCreationService;
 import com.evgeniy.task.reward.BadgeReward;
-import com.evgeniy.task.reward.MockReward;
+import com.evgeniy.task.creation.MockReward;
 import com.evgeniy.task.reward.MoneyReward;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

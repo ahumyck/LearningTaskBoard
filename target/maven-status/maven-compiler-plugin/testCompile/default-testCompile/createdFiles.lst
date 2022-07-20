@@ -1,0 +1,5 @@
+com\evgeniy\task\creation\MockReward.class
+com\evgeniy\task\TaskTest.class
+com\evgeniy\task\board\TaskBoardTest.class
+com\evgeniy\task\creation\TaskCreationServiceTest.class
+com\evgeniy\task\creation\TaskCreationServiceTest$1.class

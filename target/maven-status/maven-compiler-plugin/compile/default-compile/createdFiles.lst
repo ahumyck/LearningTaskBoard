@@ -1,0 +1,14 @@
+com\evgeniy\task\reward\MoneyReward.class
+com\evgeniy\task\Task.class
+com\evgeniy\Main.class
+com\evgeniy\Main$1.class
+com\evgeniy\task\reward\Reward.class
+com\evgeniy\task\creation\TaskCreationService$InnerHolder.class
+com\evgeniy\task\DefaultTask.class
+com\evgeniy\task\Status.class
+com\evgeniy\task\board\DefaultTaskBoard.class
+com\evgeniy\task\creation\TaskCreationService.class
+com\evgeniy\task\reward\PromiseReward.class
+com\evgeniy\task\board\TaskBoard.class
+com\evgeniy\task\exception\NoRewardException.class
+com\evgeniy\task\reward\BadgeReward.class

@@ -4,7 +4,6 @@ import com.evgeniy.task.Task;
 import com.evgeniy.task.board.DefaultTaskBoard;
 import com.evgeniy.task.board.TaskBoard;
 import com.evgeniy.task.exception.NoRewardException;
-import com.evgeniy.task.reward.MockReward;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
