@@ -1,9 +1,19 @@
 0. Надеюсь, что такое json ты знаешь
     https://www.youtube.com/watch?v=iiADhChRriM&ab_channel=WebDevSimplified
 
+0.1 Сделай интерфейс TaskFileHandler и сделай у него два метода:
+
+        <T> void writeIntoFile(String filename, T object) throws IOException;
+
+        <T> T readFromFile(String filename, Class<T> objectClass) throws IOException;
+
+0.2 Свой бывший класс WorkWithFiles (на данном этапе я не знаю, во что ты его переименовал) теперь должен
+    имплементировать TaskFileHandler. Соответственно переделай таким образом, чтобы с помощью двух этих методов
+    можно было записывать/читать Task/TaskBoard
+    (на данный момент у тебя их 4: writeTaskIntoFile, writeTaskBoardIntoFile, readTaskIntoFile, readTaskBoardIntoFile)
 
 1. Очисти свой main метод, создай таску и попробуй с помощи библиотеки gson создать json и выведи на печать
-чтобы было красиво, а не в одну строку. как это сделать попоробуй в гугле
+чтобы было красиво, а не в одну строку. как это сделать поищи в гугле (там что-то со словом beautify)
 
 2. теперь из полученного json собери обратно объект Task
 
@@ -13,10 +23,9 @@
 1-3 с помощью jackson'-a
 
 
-5. Создай ObjectJsonConverterService, а в нем 4 нестатических метода:
-    - toJsonWithGson
-    - toJsonWithJackson
-    - toObjectWithGson
-    - toObjectWithJackson
+5. Создай интерфейс TaskJsonFileHandler, пусть он расширяет TaskFileHandler:
+6. Создай две имплементации TaskJsonFileHandler: TaskGsonFileHandler, TaskJacksonFileHandler
+7. Соответственно попробуй теперь реализовать методы этих классов с помощью кода из менйа, чтобы всё заработало
 
-И соответственно код из мейна в этот сервис раскидай, а мейн перепиши через этот сервис
+8. На эти два класса напиши юнит тесты, аналогично заданию из 5 пункта
+    (создать таск(боард), записать в файл, прочитать из файла, сравнить на equals)

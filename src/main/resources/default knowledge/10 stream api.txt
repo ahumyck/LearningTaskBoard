@@ -1,0 +1,95 @@
+Два видоса горячо рекомендуемые к просмотру. Это двух часовая лекция от разработчика Stream API.
+Он там про самое основное рассказывает
+
+https://www.youtube.com/watch?v=O8oN4KSZEXE&t=2381s&ab_channel=JPoint%2CJoker%D0%B8JUGru
+https://www.youtube.com/watch?v=i0Jr2l3jrDA&t=2586s&ab_channel=JPoint%2CJoker%D0%B8JUGru
+
+В интерфейсе TaskBoard'-a сделай новые методы:
+    boolean addTasks(TaskBoard tasks);
+    Stream<Task> stream();
+
+
+1. Теперь попробуй создать таскбоард, отфильтровать (например), только четные айдишники. Собрать их в лист
+2. Теперь попробуй отфилтровать таски по определенному статусу. Собери их в лист
+3. Попробуй через мап получить все айдшники, а потом распечатать их.
+
+Чет ещё сложно придумать, стримы обычно просто вместо циклов для удобства используются.
+
+4. Напиши свой собственный коллектор вместо Collectors.toList(), который бы собирал сразу в TaskBoard.
+
+В классе TaskBoard сделай 2 статических метода:
+
+    static Collector<Task, ListTaskBoard, ListTaskBoard> toListTaskBoard()
+    static Collector<Task, MapTaskBoard, MapTaskBoard> toMapTaskBoard()
+
+    Если возникнет сложность, то посмотри метод Collectors.toList - можно по аналогии сделать
+
+5. Теперь сделай первые два пункта, но собери это в не в лист, а в другой таскбоард)))
+
+    Выглядеть это будет примерно так: stream().
+                                        ....
+                                        .collect(TaskBoard.toMapTaskBoard())
+
+                                        / ИЛИ
+
+                                        .collect(TaskBoard.toListTaskBoard())
+
+
+** -- ** ОТВЕТЫ ДЛЯ ПРОВЕРКИ НИЖЕ
+
+
+
+
+
+
+
+
+
+
+
+
+1. List<Task> tasks = taskBoard.stream()
+           .filter(task -> task.getId() % 2 == 0)
+           .collect(Collectors.toList());
+
+2. List<Task> tasks = taskBoard.stream()
+           .filter(task -> task.getStatus() == Status.OPEN)
+           .collect(Collectors.toList())
+
+3. taskBoard.stream()
+           .map(Task::getId)
+           .forEach(System.out::println)
+
+
+4.     static Collector<Task, ListTaskBoard, ListTaskBoard> toListTaskBoard() {
+           return Collector.of(
+                   ListImplementationTaskBoard::new,
+                   TaskBoard::addTask,
+                   (taskBoard1, taskBoard2) -> {
+                       taskBoard1.addTasks(taskBoard2);
+                       return taskBoard1;
+                   }
+           );
+       }
+
+
+       static Collector<Task, MapTaskBoard, MapTaskBoard> toMapTaskBoard() {
+           return Collector.of(
+                   MapImplementationTaskBoard::new,
+                   TaskBoard::addTask,
+                   (taskBoard1, taskBoard2) -> {
+                       taskBoard1.addTasks(taskBoard2);
+                       return taskBoard1;
+                   }
+           );
+       }
+
+
+5. MapTaskBoard collect = taskBoard.stream()
+           .filter(task -> task.getId() % 2 == 0)
+           .collect(TaskBoard.toMapTaskBoard());
+
+
+   ListTaskBoard collect = taskBoard.stream()
+              .filter(task -> task.getId().getStatus() == Status.OPEN)
+              .collect(TaskBoard.toListTaskBoard());

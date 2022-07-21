@@ -12,11 +12,14 @@
     И ещё два эксепшена: MapNotEmptyException, CollectionNotEmptyException. Отнаследуй их от NotEmptyException
 
 3. Внутри DefaultTaskBoard замени поле List<Task> tasks на Collection<Task> tasks. Всё что будет гореть красным исправь
-    Также переименуй DefaultTaskBoard на CollectionDrivenTaskBoard
-4. Создай новый конструктор в CollectionDrivenTaskBoard, который бы принимал Collection<Task>. Надо проверять, что коллекция
-    пустая, иначе кидай CollectionNotEmptyException
+    Также переименуй DefaultTaskBoard на CollectionImplementationTaskBoard. Так как коллекции по дефолту нельзя
+    сортировать обычным способами, переделай методы с сортировками через стримы.
+4. Создай новый конструктор в CollectionImplementationTaskBoard, который бы принимал Collection<Task>.
+    Надо проверять, что коллекция пустая, иначе кидай CollectionNotEmptyException
 
-5. Теперь создай MapDrivenTaskBoard и отнаследуй от MapTaskBoard. Теперь тебе необходимо реализовать все методы
+4.1 Создай интерфейс ListTaskBoard и имплементацию ListImplementationTaskBoard
+
+5. Теперь создай MapImplementationTaskBoard и отнаследуй от MapTaskBoard. Теперь тебе необходимо реализовать все методы
     таким образом, чтобы всё работало аналогично!!! (так же для него надо сделать предыдущие пункты с клонированием,
     компарабле и т.д.)
     Если видосы внимательно смотрел, то проблем возникнуть не должно.
@@ -25,7 +28,8 @@
     который бы принимал мапу и проверял, что эта мапа пустая, если мапа не пустая,
     то кидай исключение MapNotEmptyException.
 
-6. Создай юнит тесты на MapDrivenTaskBoard, проверь что работает добавление удаление и геттеры
+6. Создай юнит тесты на MapImplementationTaskBoard, проверь что работает добавление удаление и геттеры
+7. У всех реализаций TaskBoard реализуй метод toString
 
 ДЗ
 Нужно найти ответы на вопросы
