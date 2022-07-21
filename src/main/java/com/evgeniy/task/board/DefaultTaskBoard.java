@@ -2,10 +2,13 @@ package com.evgeniy.task.board;
 
 import com.evgeniy.task.Task;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 
 public class DefaultTaskBoard implements TaskBoard, Serializable {
+    @Serial
+    private static final long serialVersionUID = -1233761277930413217L;
     private List<Task> tasks = new ArrayList<>();
 
     @Override

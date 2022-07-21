@@ -41,18 +41,13 @@ class TaskTest {
 
     @Test
     void taskWriteRead() throws IOException, ClassNotFoundException {
+        WorkWithFiles fileCommands = new WorkWithFiles();
         Task task = TaskCreationService.getInstance().createTask("name", "description", new MoneyReward(0L));
-        File file = new File("E:/intellijfiles/tmp.task");
-        if (file.createNewFile()) {
-            System.out.println("File is created!");
-        } else {
-            System.out.println("File already exists.");
-        }
-        WorkWithFiles.WriteTaskIntoFile(task, "E:/intellijfiles/tmp.task");
-        Task readTask = WorkWithFiles.ReadTaskFromFile("E:/intellijfiles/tmp.task");
-        Assertions.assertEquals(task, readTask);
-        System.out.println(file.delete());
-        Task readAgain = WorkWithFiles.ReadTaskFromFile("E:/intellijfiles/tmp.task");
-        Assertions.assertNull(readAgain);
+        fileCommands.writeTaskIntoFile(task, "tmp.task");
+        Optional<Task> readTask = fileCommands.readTaskFromFile("tmp.task");
+        Assertions.assertEquals(task, readTask.get());
+        fileCommands.deleteFile("tmp.task");
+        Optional<Task> readAgain = fileCommands.readTaskFromFile("tmp.task");
+        Assertions.assertEquals(Optional.empty(),readAgain);
     }
 }

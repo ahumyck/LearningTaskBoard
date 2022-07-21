@@ -4,12 +4,11 @@ import com.evgeniy.files.WorkWithFiles;
 import com.evgeniy.task.Task;
 import com.evgeniy.task.creation.TaskCreationService;
 import com.evgeniy.task.MockReward;
-import com.evgeniy.task.reward.MoneyReward;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 
 class TaskBoardTest {
@@ -44,17 +43,12 @@ class TaskBoardTest {
         taskBoard.addTask(task2);
         taskBoard.addTask(task3);
         taskBoard.addTask(task4);
-        File file = new File("E:/intellijfiles/tmp.board");
-        if (file.createNewFile()) {
-            System.out.println("File is created!");
-        } else {
-            System.out.println("File already exists.");
-        }
-        WorkWithFiles.WriteTaskBoardIntoFile(taskBoard, "E:/intellijfiles/tmp.board");
-        TaskBoard readTaskBoard = WorkWithFiles.ReadTaskBoardFromFile("E:/intellijfiles/tmp.board");
-        Assertions.assertEquals(taskBoard, readTaskBoard);
-        System.out.println(file.delete());
-        TaskBoard readAgain = WorkWithFiles.ReadTaskBoardFromFile("E:/intellijfiles/tmp.board");
-        Assertions.assertNull(readAgain);
+        WorkWithFiles fileCommands = new WorkWithFiles();
+        fileCommands.writeTaskBoardIntoFile(taskBoard, "tmp.board");
+        Optional<TaskBoard> readTaskBoard = fileCommands.readTaskBoardFromFile("tmp.board");
+        Assertions.assertEquals(taskBoard, readTaskBoard.get());
+        fileCommands.deleteFile("tmp.board");
+        Optional<TaskBoard> readAgain = fileCommands.readTaskBoardFromFile("tmp.board");
+        Assertions.assertEquals(Optional.empty(),readAgain);
     }
 }

@@ -8,10 +8,7 @@ import com.evgeniy.task.creation.TaskCreationService;
 import com.evgeniy.task.reward.BadgeReward;
 import com.evgeniy.task.reward.MoneyReward;
 import com.evgeniy.task.reward.PromiseReward;
-import com.evgeniy.files.WorkWithFiles.*;
-import com.evgeniy.task.reward.Reward;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.Optional;
@@ -33,8 +30,9 @@ public class Main {
         Task task3 = TaskCreationService.getInstance().createTask("Remove any task", "Remove some tasks for test", new PromiseReward("Reward next week"));
         Task task4 = TaskCreationService.getInstance().createTask("Change task's status", "Change status of any task for test", new MoneyReward(2000L));
         Task task5 = TaskCreationService.getInstance().createTask("Show tasks by status", "Show all tasks with same status for test", new MoneyReward(3000L));
-        WorkWithFiles.WriteTaskIntoFile(task1, "E:/intellijfiles/task1.txt");
-        Task fileTask = WorkWithFiles.ReadTaskFromFile("E:/intellijfiles/task1.txt");
+        WorkWithFiles fileCommands = new WorkWithFiles();
+        fileCommands.writeTaskIntoFile(task1, "E:/intellijfiles/task1.txt");
+        Optional<Task> fileTask = fileCommands.readTaskFromFile("E:/intellijfiles/task1.txt");
         System.out.println(fileTask);
         System.out.println("Add.");
         taskBoard.addTask(task1);
@@ -74,10 +72,10 @@ public class Main {
         taskGet.ifPresent(task -> System.out.println(task.getStatus()));
 
         System.out.println("Write/read task board.");
-        WorkWithFiles.WriteTaskBoardIntoFile(taskBoard, "E:/intellijfiles/taskboard1.txt");
-        TaskBoard fileTaskBoard = WorkWithFiles.ReadTaskBoardFromFile("E:/intellijfiles/taskboard1.txt");
-        if (fileTaskBoard != null) {
-            for (Task task : fileTaskBoard) {
+        fileCommands.writeTaskBoardIntoFile(taskBoard, "E:/intellijfiles/taskboard1.txt");
+        Optional<TaskBoard> fileTaskBoard = fileCommands.readTaskBoardFromFile("E:/intellijfiles/taskboard1.txt");
+        if (fileTaskBoard.isPresent()) {
+            for (Task task : fileTaskBoard.get()) {
                 System.out.println(task);
             }
         } else {
