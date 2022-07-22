@@ -1,6 +1,6 @@
 package com.evgeniy;
 
-import com.evgeniy.files.WorkWithFiles;
+import com.evgeniy.files.FilesManager;
 import com.evgeniy.task.Task;
 import com.evgeniy.task.board.DefaultTaskBoard;
 import com.evgeniy.task.board.TaskBoard;
@@ -30,9 +30,9 @@ public class Main {
         Task task3 = TaskCreationService.getInstance().createTask("Remove any task", "Remove some tasks for test", new PromiseReward("Reward next week"));
         Task task4 = TaskCreationService.getInstance().createTask("Change task's status", "Change status of any task for test", new MoneyReward(2000L));
         Task task5 = TaskCreationService.getInstance().createTask("Show tasks by status", "Show all tasks with same status for test", new MoneyReward(3000L));
-        WorkWithFiles fileCommands = new WorkWithFiles();
-        fileCommands.writeTaskIntoFile(task1, "E:/intellijfiles/task1.txt");
-        Optional<Task> fileTask = fileCommands.readTaskFromFile("E:/intellijfiles/task1.txt");
+        FilesManager fileCommands = new FilesManager();
+        fileCommands.writeIntoFile("E:/intellijfiles/task1.txt", task1);
+        Optional<Task> fileTask = fileCommands.readFromFile("E:/intellijfiles/task1.txt", Task.class);
         System.out.println(fileTask);
         System.out.println("Add.");
         taskBoard.addTask(task1);
@@ -72,12 +72,14 @@ public class Main {
         taskGet.ifPresent(task -> System.out.println(task.getStatus()));
 
         System.out.println("Write/read task board.");
-        fileCommands.writeTaskBoardIntoFile(taskBoard, "E:/intellijfiles/taskboard1.txt");
-        Optional<TaskBoard> fileTaskBoard = fileCommands.readTaskBoardFromFile("E:/intellijfiles/taskboard1.txt");
+        fileCommands.writeIntoFile("E:/intellijfiles/taskboard1.txt", taskBoard);
+        Optional<TaskBoard> fileTaskBoard = fileCommands.readFromFile("E:/intellijfiles/taskboard1.txt", TaskBoard.class);
         if (fileTaskBoard.isPresent()) {
-            for (Task task : fileTaskBoard.get()) {
-                System.out.println(task);
-            }
+            fileTaskBoard.ifPresent(taskBoard1 -> {
+                for (Task task : taskBoard1) {
+                    System.out.println(task);
+                }
+            });
         } else {
             System.out.println("Task board from file is empty!");
         }

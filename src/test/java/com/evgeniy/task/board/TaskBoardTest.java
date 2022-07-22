@@ -1,6 +1,8 @@
 package com.evgeniy.task.board;
 
-import com.evgeniy.files.WorkWithFiles;
+import com.evgeniy.files.FileDeleter;
+import com.evgeniy.files.FilesManager;
+import com.evgeniy.files.defaultDeleter;
 import com.evgeniy.task.Task;
 import com.evgeniy.task.creation.TaskCreationService;
 import com.evgeniy.task.MockReward;
@@ -32,7 +34,7 @@ class TaskBoardTest {
     }
 
     @Test
-    void taskBoardWriteRead() throws IOException, ClassNotFoundException {
+    void taskBoardWriteRead() throws ClassNotFoundException {
         Task task1 = TaskCreationService.getInstance().createTask("name1", "description1", new MockReward());
         Task task2 = TaskCreationService.getInstance().createTask("name2", "description2", new MockReward());
         Task task3 = TaskCreationService.getInstance().createTask("name3", "description3", new MockReward());
@@ -43,12 +45,13 @@ class TaskBoardTest {
         taskBoard.addTask(task2);
         taskBoard.addTask(task3);
         taskBoard.addTask(task4);
-        WorkWithFiles fileCommands = new WorkWithFiles();
-        fileCommands.writeTaskBoardIntoFile(taskBoard, "tmp.board");
-        Optional<TaskBoard> readTaskBoard = fileCommands.readTaskBoardFromFile("tmp.board");
-        Assertions.assertEquals(taskBoard, readTaskBoard.get());
-        fileCommands.deleteFile("tmp.board");
-        Optional<TaskBoard> readAgain = fileCommands.readTaskBoardFromFile("tmp.board");
-        Assertions.assertEquals(Optional.empty(),readAgain);
+        FilesManager fileCommands = new FilesManager();
+        FileDeleter deleter = new defaultDeleter();
+        fileCommands.writeIntoFile("tmp.board", taskBoard);
+        Optional<TaskBoard> readTaskBoard = fileCommands.readFromFile("tmp.board", TaskBoard.class);
+        readTaskBoard.ifPresent(tasks -> Assertions.assertEquals(taskBoard, tasks));
+        deleter.deleteFile("tmp.board");
+        Optional<TaskBoard> readAgain = fileCommands.readFromFile("tmp.board", TaskBoard.class);
+        Assertions.assertEquals(Optional.empty(), readAgain);
     }
 }

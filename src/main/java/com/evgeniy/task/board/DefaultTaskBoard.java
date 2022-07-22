@@ -75,8 +75,10 @@ public class DefaultTaskBoard implements TaskBoard, Serializable {
         if (obj instanceof TaskBoard taskBoard) {
             if (taskBoard.getAllTask().size() == this.tasks.size()) {
                 for (Task task : this.tasks) {
-                    if (!task.equals(taskBoard.getTaskById(task.getId()).get())) {
-                        return false;
+                    if (taskBoard.getTaskById(task.getId()).isPresent()) {
+                        if (!task.equals(taskBoard.getTaskById(task.getId()).get())) {
+                            return false;
+                        }
                     }
                 }
                 return true;
