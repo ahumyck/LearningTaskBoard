@@ -47,7 +47,7 @@ class TaskTest {
         Task task = TaskCreationService.getInstance().createTask("name", "description", new MoneyReward(0L));
         fileCommands.writeIntoFile("tmp.task", task);
         Optional<Task> readTask = fileCommands.readFromFile("tmp.task", Task.class);
-        readTask.ifPresentOrElse((value) -> {System.out.println("Task was read.");}, Assertions::fail);
+        readTask.ifPresentOrElse((value) -> System.out.println("Task was read."), Assertions::fail);
         deleter.deleteFile("tmp.task");
         Optional<Task> readAgain = fileCommands.readFromFile("tmp.task", Task.class);
         Assertions.assertEquals(Optional.empty(), readAgain);
