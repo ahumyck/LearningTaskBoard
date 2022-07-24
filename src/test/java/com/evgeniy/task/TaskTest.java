@@ -2,7 +2,7 @@ package com.evgeniy.task;
 
 import com.evgeniy.files.FileDeleter;
 import com.evgeniy.files.FilesManager;
-import com.evgeniy.files.defaultDeleter;
+import com.evgeniy.files.DefaultDeleter;
 import com.evgeniy.task.creation.TaskCreationService;
 import com.evgeniy.task.reward.BadgeReward;
 import com.evgeniy.task.reward.MoneyReward;
@@ -43,7 +43,7 @@ class TaskTest {
     @Test
     void taskWriteRead() throws IOException, ClassNotFoundException {
         FilesManager fileCommands = new FilesManager();
-        FileDeleter deleter = new defaultDeleter();
+        FileDeleter deleter = new DefaultDeleter();
         Task task = TaskCreationService.getInstance().createTask("name", "description", new MoneyReward(0L));
         fileCommands.writeIntoFile("tmp.task", task);
         Optional<Task> readTask = fileCommands.readFromFile("tmp.task", Task.class);

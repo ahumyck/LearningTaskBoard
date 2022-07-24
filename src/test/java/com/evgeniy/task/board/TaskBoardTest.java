@@ -2,14 +2,13 @@ package com.evgeniy.task.board;
 
 import com.evgeniy.files.FileDeleter;
 import com.evgeniy.files.FilesManager;
-import com.evgeniy.files.defaultDeleter;
+import com.evgeniy.files.DefaultDeleter;
 import com.evgeniy.task.Task;
 import com.evgeniy.task.creation.TaskCreationService;
 import com.evgeniy.task.MockReward;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.util.Optional;
 
 
@@ -46,7 +45,7 @@ class TaskBoardTest {
         taskBoard.addTask(task3);
         taskBoard.addTask(task4);
         FilesManager fileCommands = new FilesManager();
-        FileDeleter deleter = new defaultDeleter();
+        FileDeleter deleter = new DefaultDeleter();
         fileCommands.writeIntoFile("tmp.board", taskBoard);
         Optional<TaskBoard> readTaskBoard = fileCommands.readFromFile("tmp.board", TaskBoard.class);
         readTaskBoard.ifPresent(tasks -> Assertions.assertEquals(taskBoard, tasks));
