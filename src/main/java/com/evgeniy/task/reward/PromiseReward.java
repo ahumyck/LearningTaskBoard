@@ -1,7 +1,12 @@
 package com.evgeniy.task.reward;
 
-public class PromiseReward implements Reward{
+import java.io.Serial;
+import java.io.Serializable;
 
+public class PromiseReward implements Reward, Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 4594897388344065467L;
     private String promise;
 
     public PromiseReward(String promise) {

@@ -5,11 +5,16 @@ import com.evgeniy.task.reward.MoneyReward;
 import com.evgeniy.task.reward.PromiseReward;
 import com.evgeniy.task.reward.Reward;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Optional;
 
-public class DefaultTask implements Task {
+public class DefaultTask implements Task, Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -7131997297109948762L;
     private final Long id;
     private String name;
     private String description;
@@ -72,9 +77,9 @@ public class DefaultTask implements Task {
     }
 
     public <T extends Reward> Optional<T> getReward(Class<T> rewardType) {
-       if(!rewardType.isInstance(this.reward)){
-           return Optional.empty();
-       }
+        if (!rewardType.isInstance(this.reward)) {
+            return Optional.empty();
+        }
         return Optional.of(rewardType.cast(this.reward));
     }
 

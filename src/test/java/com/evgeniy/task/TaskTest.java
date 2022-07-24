@@ -1,12 +1,15 @@
 package com.evgeniy.task;
 
+import com.evgeniy.files.FileDeleter;
+import com.evgeniy.files.FilesManager;
+import com.evgeniy.files.DefaultDeleter;
 import com.evgeniy.task.creation.TaskCreationService;
 import com.evgeniy.task.reward.BadgeReward;
-import com.evgeniy.task.reward.MockReward;
 import com.evgeniy.task.reward.MoneyReward;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.Optional;
 
 class TaskTest {
@@ -28,12 +31,25 @@ class TaskTest {
     }
 
     @Test
-    void taskReward(){
+    void taskReward() {
         Task task = TaskCreationService.getInstance().createTask("name", "description", new MoneyReward(0L));
         Optional<MoneyReward> reward = task.getReward(MoneyReward.class);
         Optional<BadgeReward> reward1 = task.getReward(BadgeReward.class);
-        Assertions.assertNotEquals(Optional.empty(),reward);
+        Assertions.assertNotEquals(Optional.empty(), reward);
         reward.ifPresent(val -> Assertions.assertEquals(MoneyReward.class, val.getClass()));
-        Assertions.assertEquals(Optional.empty(),reward1);
+        Assertions.assertEquals(Optional.empty(), reward1);
+    }
+
+    @Test
+    void taskWriteRead() throws IOException, ClassNotFoundException {
+        FilesManager fileCommands = new FilesManager();
+        FileDeleter deleter = new DefaultDeleter();
+        Task task = TaskCreationService.getInstance().createTask("name", "description", new MoneyReward(0L));
+        fileCommands.writeIntoFile("tmp.task", task);
+        Optional<Task> readTask = fileCommands.readFromFile("tmp.task", Task.class);
+        readTask.ifPresentOrElse((value) -> Assertions.assertEquals(task,value), Assertions::fail);
+        deleter.deleteFile("tmp.task");
+        Optional<Task> readAgain = fileCommands.readFromFile("tmp.task", Task.class);
+        Assertions.assertEquals(Optional.empty(), readAgain);
     }
 }

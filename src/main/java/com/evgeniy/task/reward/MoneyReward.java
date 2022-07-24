@@ -1,8 +1,13 @@
 package com.evgeniy.task.reward;
 
-public class MoneyReward implements Reward {
+import java.io.Serial;
+import java.io.Serializable;
 
-    private long money;
+public class MoneyReward implements Reward, Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 4979974502303867531L;
+    private final long money;
 
     public MoneyReward(long money) {
         this.money = money;

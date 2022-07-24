@@ -2,9 +2,13 @@ package com.evgeniy.task.board;
 
 import com.evgeniy.task.Task;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.*;
 
-public class DefaultTaskBoard implements TaskBoard {
+public class DefaultTaskBoard implements TaskBoard, Serializable {
+    @Serial
+    private static final long serialVersionUID = -1233761277930413217L;
     private List<Task> tasks = new ArrayList<>();
 
     @Override
@@ -71,9 +75,14 @@ public class DefaultTaskBoard implements TaskBoard {
         if (obj instanceof TaskBoard taskBoard) {
             if (taskBoard.getAllTask().size() == this.tasks.size()) {
                 for (Task task : this.tasks) {
-                    if (!task.equals(taskBoard.getTaskById(task.getId()).get())) {
+                    Optional<Task> taskFromBoard = taskBoard.getTaskById(task.getId());
+                    if (taskFromBoard.isEmpty()) {
                         return false;
                     }
+                       if (!task.equals(taskFromBoard.get())) {
+                            return false;
+                        }
+
                 }
                 return true;
             }
