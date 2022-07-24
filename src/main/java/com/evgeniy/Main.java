@@ -74,15 +74,11 @@ public class Main {
         System.out.println("Write/read task board.");
         fileCommands.writeIntoFile("E:/intellijfiles/taskboard1.txt", taskBoard);
         Optional<TaskBoard> fileTaskBoard = fileCommands.readFromFile("E:/intellijfiles/taskboard1.txt", TaskBoard.class);
-        if (fileTaskBoard.isPresent()) {
-            fileTaskBoard.ifPresent(taskBoard1 -> {
-                for (Task task : taskBoard1) {
-                    System.out.println(task);
-                }
-            });
-        } else {
-            System.out.println("Task board from file is empty!");
-        }
+        fileTaskBoard.ifPresent(taskBoard1 -> {
+            for (Task task : taskBoard1) {
+                System.out.println(task);
+            }
+        });
         /*System.out.println("Change status.");
         task1.setStatus(Status.CLOSED);
         task2.setStatus(Status.CLOSED);

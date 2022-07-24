@@ -48,7 +48,7 @@ class TaskBoardTest {
         FileDeleter deleter = new DefaultDeleter();
         fileCommands.writeIntoFile("tmp.board", taskBoard);
         Optional<TaskBoard> readTaskBoard = fileCommands.readFromFile("tmp.board", TaskBoard.class);
-        readTaskBoard.ifPresent(tasks -> Assertions.assertEquals(taskBoard, tasks));
+        readTaskBoard.ifPresentOrElse((value) -> {System.out.println("Task board was read.");}, Assertions::fail);
         deleter.deleteFile("tmp.board");
         Optional<TaskBoard> readAgain = fileCommands.readFromFile("tmp.board", TaskBoard.class);
         Assertions.assertEquals(Optional.empty(), readAgain);

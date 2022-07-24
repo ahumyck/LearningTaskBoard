@@ -16,7 +16,6 @@ public class FilesManager {
     public <T> Optional<T> readFromFile(String path, Class<T> type) throws ClassNotFoundException {
         try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(path))) {
             Optional<T> task = (Optional<T>) Optional.ofNullable(objectInputStream.readObject());
-            objectInputStream.close();
             return task;
         } catch (IOException e) {
             e.printStackTrace();
