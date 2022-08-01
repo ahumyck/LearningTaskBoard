@@ -7,43 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-public interface ListTaskBoard extends Cloneable,Iterable<Task>{
-    /**
-     * Пытается добавить задачу на доску
-     *
-     * @return true - если получилось добавить, иначе - false
-     */
-    boolean addTask(Task task);
-
-    /**
-     * Пытается удалить переданную задачу из доски
-     *
-     * @return true - если получилось удалить, иначе - false
-     */
-    boolean removeTask(Task task);
-
-    /**
-     * Пытается удалить задачу из доски по айди задачи
-     *
-     * @return true - если получилось удалить, иначе - false
-     */
-    boolean removeTask(Long taskId);
-
-    /**
-     * @return Список всех задач из доски
-     */
-    List<Task> getAllTask();
-
-    /**
-     * @param taskId - уникальный идентификатор таски
-     * @return Задача из таскбоарда
-     */
-    Optional<Task> getTaskById(Long taskId);
-
-    ListTaskBoard clone() throws CloneNotSupportedException;
-
-    void sort();
-
-    void sort(Comparator<Task> comparator);
+public interface ListTaskBoard extends CollectionTaskBoard,Cloneable,Iterable<Task>{
+   ListTaskBoard clone() throws CloneNotSupportedException;
 
 }

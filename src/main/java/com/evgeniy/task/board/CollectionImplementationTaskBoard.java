@@ -14,12 +14,11 @@ public class CollectionImplementationTaskBoard implements CollectionTaskBoard, S
     private Collection<Task> tasks = new ArrayList<>();
 
     public CollectionImplementationTaskBoard(Collection<Task> tasks) {
-        if(!tasks.isEmpty()){
+        if (!tasks.isEmpty()) {
             throw new CollectionNotEmptyException("Collection isn't empty!");
         }
         this.tasks = tasks;
     }
-
 
 
     @Override
@@ -59,7 +58,7 @@ public class CollectionImplementationTaskBoard implements CollectionTaskBoard, S
 
     @Override
     public CollectionTaskBoard clone() throws CloneNotSupportedException {
-        CollectionImplementationTaskBoard taskBoard = new CollectionImplementationTaskBoard(this.tasks);
+        CollectionImplementationTaskBoard taskBoard = new CollectionImplementationTaskBoard(new ArrayList<>());
         for (Task task : this.tasks) {
             taskBoard.addTask(task.clone());
         }
@@ -68,13 +67,14 @@ public class CollectionImplementationTaskBoard implements CollectionTaskBoard, S
 
     @Override
     public void sort() {
-        Stream<Task> sort = this.tasks.stream().sorted();
-        System.out.println(sort);
+        List<Task> list = new ArrayList<>(this.tasks);
+        Collections.sort(list);
     }
 
     @Override
     public void sort(Comparator<Task> comparator) {
-        System.out.println(this.tasks.stream().sorted(comparator));
+        List<Task> list = new ArrayList<>(this.tasks);
+        Collections.sort(list,comparator);
     }
 
     @Override
@@ -91,9 +91,9 @@ public class CollectionImplementationTaskBoard implements CollectionTaskBoard, S
                     if (taskFromBoard.isEmpty()) {
                         return false;
                     }
-                       if (!task.equals(taskFromBoard.get())) {
-                            return false;
-                        }
+                    if (!task.equals(taskFromBoard.get())) {
+                        return false;
+                    }
 
                 }
                 return true;
@@ -107,10 +107,11 @@ public class CollectionImplementationTaskBoard implements CollectionTaskBoard, S
     public Iterator<Task> iterator() {
         return this.tasks.iterator();
     }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (Task task:this.tasks){
+        for (Task task : this.tasks) {
             sb.append(task.toString()).append("\n");
 
         }

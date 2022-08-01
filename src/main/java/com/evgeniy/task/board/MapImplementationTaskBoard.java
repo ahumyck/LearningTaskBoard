@@ -12,16 +12,18 @@ public class MapImplementationTaskBoard implements MapTaskBoard, Serializable {
     private static final long serialVersionUID = -9128371872503017141L;
     private Map<Long, Task> tasks = new HashMap<>();
 
+
     public MapImplementationTaskBoard(Map<Long, Task> tasks) {
-        if(!tasks.isEmpty()){
+        if (!tasks.isEmpty()) {
             throw new MapNotEmptyException("Map isn't empty!");
         }
         this.tasks = tasks;
     }
 
-    public Task addTask(long key, Task task) {
-        return tasks.put(key,task);
+    public boolean addTask(Task task) {
+        return tasks.put(task.getId(), task) != null;
     }
+
 
 
     @Override
@@ -31,47 +33,44 @@ public class MapImplementationTaskBoard implements MapTaskBoard, Serializable {
 
     @Override
     public boolean removeTask(Long taskId) {
-        for (var entry : tasks.entrySet()) {
+        for (Map.Entry<Long, Task> entry : tasks.entrySet()) {
             if (entry.getValue().getId().equals(taskId)) {
-                return tasks.values().remove(entry.getValue());
+                return tasks.remove(entry.getKey())!=null;
             }
         }
         return false;
     }
 
     @Override
-    public Map<Long, Task> getAllTask() {
-        return this.tasks;
+    public Collection<Task> getAllTask() {
+        return this.tasks.values();
     }
 
     @Override
     public Optional<Task> getTaskById(Long taskId) {
-        for (var entry : tasks.entrySet()) {
-            if (entry.getValue().getId().equals(taskId)) {
-                return Optional.of(entry.getValue());
-            }
-        }
-        return Optional.empty();
+        return Optional.ofNullable(this.tasks.get(taskId));
     }
+
 
     @Override
     public MapTaskBoard clone() throws CloneNotSupportedException {
         MapImplementationTaskBoard taskBoard = new MapImplementationTaskBoard(new HashMap<>());
-        for (var entry : this.tasks.entrySet()) {
-            taskBoard.addTask(entry.getKey(), entry.getValue().clone());
+        for (Map.Entry<Long, Task> entry : this.tasks.entrySet()) {
+            taskBoard.addTask(entry.getValue().clone());
         }
         return taskBoard;
     }
 
     @Override
     public void sort() {
-        System.out.println(this.tasks.entrySet().stream().sorted());
+        List<Task> list = new ArrayList<>(this.tasks.values());
+        Collections.sort(list);
     }
 
     @Override
     public void sort(Comparator<Task> comparator) {
-        List<Task> mapValues = new ArrayList<>(this.tasks.values());
-        mapValues.sort(comparator);
+        List<Task> list = new ArrayList<>(this.tasks.values());
+        Collections.sort(list, comparator);
     }
 
     @Override
@@ -83,7 +82,7 @@ public class MapImplementationTaskBoard implements MapTaskBoard, Serializable {
         }
         if (obj instanceof MapTaskBoard taskBoard) {
             if (taskBoard.getAllTask().size() == this.tasks.size()) {
-                for (var entry : tasks.entrySet()) {
+                for (Map.Entry<Long, Task> entry : tasks.entrySet()) {
                     Optional<Task> taskFromBoard = taskBoard.getTaskById(entry.getValue().getId());
                     if (taskFromBoard.isEmpty()) {
                         return false;
@@ -105,10 +104,11 @@ public class MapImplementationTaskBoard implements MapTaskBoard, Serializable {
         return this.tasks.values().iterator();
     }
 
+
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (var entry:this.tasks.entrySet()){
-            sb.append(entry.getValue().toString()).append("\n");
+        for (Task entry : this.tasks.values()) {
+            sb.append(entry.toString()).append("\n");
 
         }
         return sb.toString();
