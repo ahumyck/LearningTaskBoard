@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 
 
-class TaskBoardTest {
+class ListTaskBoardTest {
 
     @Test
     void taskBoardCloneEquals() throws CloneNotSupportedException {
@@ -20,14 +20,14 @@ class TaskBoardTest {
         Task task2 = TaskCreationService.getInstance().createTask("name2", "description2", new MockReward());
         Task task3 = TaskCreationService.getInstance().createTask("name3", "description3", new MockReward());
         Task task4 = TaskCreationService.getInstance().createTask("name4", "description4", new MockReward());
-        TaskBoard taskBoard = new DefaultTaskBoard();
+        ListTaskBoard taskBoard = new ListImplementationTaskBoard();
 
         taskBoard.addTask(task1);
         taskBoard.addTask(task2);
         taskBoard.addTask(task3);
         taskBoard.addTask(task4);
 
-        TaskBoard cloneTaskBoard = taskBoard.clone();
+        ListTaskBoard cloneTaskBoard = taskBoard.clone();
         Assertions.assertEquals(cloneTaskBoard, taskBoard);
         Assertions.assertNotSame(cloneTaskBoard, taskBoard);
     }
@@ -38,7 +38,7 @@ class TaskBoardTest {
         Task task2 = TaskCreationService.getInstance().createTask("name2", "description2", new MockReward());
         Task task3 = TaskCreationService.getInstance().createTask("name3", "description3", new MockReward());
         Task task4 = TaskCreationService.getInstance().createTask("name4", "description4", new MockReward());
-        TaskBoard taskBoard = new DefaultTaskBoard();
+        ListTaskBoard taskBoard = new ListImplementationTaskBoard();
 
         taskBoard.addTask(task1);
         taskBoard.addTask(task2);
@@ -47,10 +47,10 @@ class TaskBoardTest {
         FilesManager fileCommands = new FilesManager();
         FileDeleter deleter = new DefaultDeleter();
         fileCommands.writeIntoFile("tmp.board", taskBoard);
-        Optional<TaskBoard> readTaskBoard = fileCommands.readFromFile("tmp.board", TaskBoard.class);
+        Optional<ListTaskBoard> readTaskBoard = fileCommands.readFromFile("tmp.board", ListTaskBoard.class);
         readTaskBoard.ifPresentOrElse((value) -> Assertions.assertEquals(taskBoard,value), Assertions::fail);
         deleter.deleteFile("tmp.board");
-        Optional<TaskBoard> readAgain = fileCommands.readFromFile("tmp.board", TaskBoard.class);
+        Optional<CollectionTaskBoard> readAgain = fileCommands.readFromFile("tmp.board", CollectionTaskBoard.class);
         Assertions.assertEquals(Optional.empty(), readAgain);
     }
 }

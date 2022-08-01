@@ -6,9 +6,10 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 
-public class DefaultTaskBoard implements TaskBoard, Serializable {
+public class ListImplementationTaskBoard implements ListTaskBoard, Serializable {
+
     @Serial
-    private static final long serialVersionUID = -1233761277930413217L;
+    private static final long serialVersionUID = -9128371872503017141L;
     private List<Task> tasks = new ArrayList<>();
 
     @Override
@@ -33,7 +34,7 @@ public class DefaultTaskBoard implements TaskBoard, Serializable {
 
     @Override
     public List<Task> getAllTask() {
-        return Collections.unmodifiableList(tasks);
+        return this.tasks;
     }
 
     @Override
@@ -47,8 +48,8 @@ public class DefaultTaskBoard implements TaskBoard, Serializable {
     }
 
     @Override
-    public TaskBoard clone() throws CloneNotSupportedException {
-        DefaultTaskBoard taskBoard = new DefaultTaskBoard();
+    public ListTaskBoard clone() throws CloneNotSupportedException {
+        ListImplementationTaskBoard taskBoard = new ListImplementationTaskBoard();
         for (Task task : this.tasks) {
             taskBoard.addTask(task.clone());
         }
@@ -72,16 +73,16 @@ public class DefaultTaskBoard implements TaskBoard, Serializable {
         } else if (this == obj) {
             return true;
         }
-        if (obj instanceof TaskBoard taskBoard) {
+        if (obj instanceof ListTaskBoard taskBoard) {
             if (taskBoard.getAllTask().size() == this.tasks.size()) {
                 for (Task task : this.tasks) {
                     Optional<Task> taskFromBoard = taskBoard.getTaskById(task.getId());
                     if (taskFromBoard.isEmpty()) {
                         return false;
                     }
-                       if (!task.equals(taskFromBoard.get())) {
-                            return false;
-                        }
+                    if (!task.equals(taskFromBoard.get())) {
+                        return false;
+                    }
 
                 }
                 return true;
@@ -94,5 +95,13 @@ public class DefaultTaskBoard implements TaskBoard, Serializable {
     @Override
     public Iterator<Task> iterator() {
         return this.tasks.iterator();
+    }
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (Task task:this.tasks){
+            sb.append(task.toString()).append("\n");
+
+        }
+        return sb.toString();
     }
 }

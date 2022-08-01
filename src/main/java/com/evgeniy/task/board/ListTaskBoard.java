@@ -3,11 +3,11 @@ package com.evgeniy.task.board;
 import com.evgeniy.task.Task;
 
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-public interface TaskBoard extends Cloneable,Iterable<Task> {
-
+public interface ListTaskBoard extends Cloneable,Iterable<Task>{
     /**
      * Пытается добавить задачу на доску
      *
@@ -40,7 +40,7 @@ public interface TaskBoard extends Cloneable,Iterable<Task> {
      */
     Optional<Task> getTaskById(Long taskId);
 
-    TaskBoard clone() throws CloneNotSupportedException;
+    ListTaskBoard clone() throws CloneNotSupportedException;
 
     void sort();
 

@@ -1,8 +1,10 @@
 package com.evgeniy.task.creation;
 
 import com.evgeniy.task.Task;
-import com.evgeniy.task.board.DefaultTaskBoard;
-import com.evgeniy.task.board.TaskBoard;
+import com.evgeniy.task.board.CollectionImplementationTaskBoard;
+import com.evgeniy.task.board.CollectionTaskBoard;
+import com.evgeniy.task.board.ListImplementationTaskBoard;
+import com.evgeniy.task.board.ListTaskBoard;
 import com.evgeniy.task.exception.NoRewardException;
 import com.evgeniy.task.MockReward;
 import org.junit.jupiter.api.Assertions;
@@ -25,7 +27,7 @@ class TaskCreationServiceTest {
 
     @Test
     void tasksAddingCheck(){
-        TaskBoard taskBoard = new DefaultTaskBoard();
+        ListTaskBoard taskBoard = new ListImplementationTaskBoard();
 
         Task task1 = TaskCreationService.getInstance().createTask("", "", new MockReward());
         Task task2 = TaskCreationService.getInstance().createTask("", "", new MockReward());
@@ -44,7 +46,7 @@ class TaskCreationServiceTest {
 
     @Test
     void tasksRemovingCheck(){
-        TaskBoard taskBoard2 = new DefaultTaskBoard();
+        ListTaskBoard taskBoard2 = new ListImplementationTaskBoard();
         Task task5 = TaskCreationService.getInstance().createTask("", "", new MockReward());
         Task task6 = TaskCreationService.getInstance().createTask("", "", new MockReward());
         Task task7 = TaskCreationService.getInstance().createTask("", "", new MockReward());

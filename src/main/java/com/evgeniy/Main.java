@@ -2,14 +2,13 @@ package com.evgeniy;
 
 import com.evgeniy.files.FilesManager;
 import com.evgeniy.task.Task;
-import com.evgeniy.task.board.DefaultTaskBoard;
-import com.evgeniy.task.board.TaskBoard;
+import com.evgeniy.task.board.ListImplementationTaskBoard;
+import com.evgeniy.task.board.ListTaskBoard;
 import com.evgeniy.task.creation.TaskCreationService;
 import com.evgeniy.task.reward.BadgeReward;
 import com.evgeniy.task.reward.MoneyReward;
 import com.evgeniy.task.reward.PromiseReward;
 
-import java.io.IOException;
 import java.util.Comparator;
 import java.util.Optional;
 
@@ -18,8 +17,8 @@ public class Main {
     /**
      * Запускать программу тут
      */
-    public static void main(String[] args) throws IOException, CloneNotSupportedException, ClassNotFoundException {
-        TaskBoard taskBoard = new DefaultTaskBoard();
+    public static void main(String[] args) throws ClassNotFoundException {
+        ListTaskBoard taskBoard = new ListImplementationTaskBoard();
         /*Reward reward1 = new DefaultReward<>(1000L);
         Reward reward2 = new DefaultReward<>(1500L);
         Reward reward3 = new DefaultReward<>(2000L);
@@ -73,7 +72,7 @@ public class Main {
 
         System.out.println("Write/read task board.");
         fileCommands.writeIntoFile("E:/intellijfiles/taskboard1.txt", taskBoard);
-        Optional<TaskBoard> fileTaskBoard = fileCommands.readFromFile("E:/intellijfiles/taskboard1.txt", TaskBoard.class);
+        Optional<ListTaskBoard> fileTaskBoard = fileCommands.readFromFile("E:/intellijfiles/taskboard1.txt", ListTaskBoard.class);
         fileTaskBoard.ifPresent(taskBoard1 -> {
             for (Task task : taskBoard1) {
                 System.out.println(task);
