@@ -88,30 +88,31 @@ class ListTaskBoardTest {
 
     @Test
     void listSortingTest() {
-        SortingTest(ListImplementationTaskBoard::new);
+        sortingTest(ListImplementationTaskBoard::new);
     }
 
     @Test
     void collectionSortingTest() {
-        SortingTest(() -> new CollectionImplementationTaskBoard(new ArrayList<>()));
+        sortingTest(() -> new CollectionImplementationTaskBoard(new ArrayList<>()));
     }
 
     @Test
     void mapSortingTest() {
-        SortingTest(() -> new MapImplementationTaskBoard(new LinkedHashMap<>()));
+        sortingTest(() -> new MapImplementationTaskBoard(new LinkedHashMap<>()));
     }
 
-    private void SortingTest(Supplier<CollectionTaskBoard> collectionTaskBoardSupplier) {
+    private void sortingTest(Supplier<CollectionTaskBoard> collectionTaskBoardSupplier) {
         Task task1 = TaskCreationService.getInstance().createTask("name1", "description1", new MockReward());
         Task task2 = TaskCreationService.getInstance().createTask("name2", "description2", new MockReward());
         Task task3 = TaskCreationService.getInstance().createTask("name3", "description3", new MockReward());
         Task task4 = TaskCreationService.getInstance().createTask("name4", "description4", new MockReward());
         CollectionTaskBoard taskBoard = collectionTaskBoardSupplier.get();
-        taskBoard.addTask(task1);
+        taskBoard.addTask(task4);
         taskBoard.addTask(task2);
         taskBoard.addTask(task3);
-        taskBoard.addTask(task4);
+        taskBoard.addTask(task1);
         taskBoard.sort();
-        Assertions.assertTrue(Ordering.<Task>natural().isOrdered(taskBoard));
+        System.out.println(taskBoard);
+        Assertions.assertTrue(Ordering.natural().isOrdered(taskBoard));
     }
 }

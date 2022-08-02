@@ -34,7 +34,7 @@ public class ListImplementationTaskBoard implements ListTaskBoard, Serializable 
 
     @Override
     public List<Task> getAllTask() {
-        return this.tasks;
+        return Collections.unmodifiableList(this.tasks);
     }
 
     @Override

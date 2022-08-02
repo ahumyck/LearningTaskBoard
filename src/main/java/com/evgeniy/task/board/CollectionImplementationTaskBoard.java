@@ -6,12 +6,13 @@ import com.evgeniy.task.exception.empty.CollectionNotEmptyException;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CollectionImplementationTaskBoard implements CollectionTaskBoard, Serializable {
     @Serial
     private static final long serialVersionUID = -1233761277930413217L;
-    private Collection<Task> tasks = new ArrayList<>();
+    private Collection<Task> tasks;
 
     public CollectionImplementationTaskBoard(Collection<Task> tasks) {
         if (!tasks.isEmpty()) {
@@ -43,7 +44,7 @@ public class CollectionImplementationTaskBoard implements CollectionTaskBoard, S
 
     @Override
     public Collection<Task> getAllTask() {
-        return this.tasks;
+        return Collections.unmodifiableCollection(this.tasks);
     }
 
     @Override
@@ -67,14 +68,12 @@ public class CollectionImplementationTaskBoard implements CollectionTaskBoard, S
 
     @Override
     public void sort() {
-        List<Task> list = new ArrayList<>(this.tasks);
-        Collections.sort(list);
+        this.tasks = this.tasks.stream().sorted().collect(Collectors.toList());
     }
 
     @Override
     public void sort(Comparator<Task> comparator) {
-        List<Task> list = new ArrayList<>(this.tasks);
-        Collections.sort(list,comparator);
+        this.tasks=this.tasks.stream().sorted(comparator).collect(Collectors.toList());
     }
 
     @Override

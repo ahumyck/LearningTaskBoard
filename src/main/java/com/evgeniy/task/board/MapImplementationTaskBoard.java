@@ -6,11 +6,12 @@ import com.evgeniy.task.exception.empty.MapNotEmptyException;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class MapImplementationTaskBoard implements MapTaskBoard, Serializable {
     @Serial
     private static final long serialVersionUID = -9128371872503017141L;
-    private Map<Long, Task> tasks = new HashMap<>();
+    private Map<Long, Task> tasks;
 
 
     public MapImplementationTaskBoard(Map<Long, Task> tasks) {
@@ -25,7 +26,6 @@ public class MapImplementationTaskBoard implements MapTaskBoard, Serializable {
     }
 
 
-
     @Override
     public boolean removeTask(Task task) {
         return removeTask(task.getId());
@@ -33,12 +33,7 @@ public class MapImplementationTaskBoard implements MapTaskBoard, Serializable {
 
     @Override
     public boolean removeTask(Long taskId) {
-        for (Map.Entry<Long, Task> entry : tasks.entrySet()) {
-            if (entry.getValue().getId().equals(taskId)) {
-                return tasks.remove(entry.getKey())!=null;
-            }
-        }
-        return false;
+        return tasks.remove(taskId) != null;
     }
 
     @Override
@@ -55,22 +50,26 @@ public class MapImplementationTaskBoard implements MapTaskBoard, Serializable {
     @Override
     public MapTaskBoard clone() throws CloneNotSupportedException {
         MapImplementationTaskBoard taskBoard = new MapImplementationTaskBoard(new HashMap<>());
-        for (Map.Entry<Long, Task> entry : this.tasks.entrySet()) {
-            taskBoard.addTask(entry.getValue().clone());
+        for (Task entry : this.tasks.values()) {
+            taskBoard.addTask(entry.clone());
         }
         return taskBoard;
     }
 
     @Override
     public void sort() {
-        List<Task> list = new ArrayList<>(this.tasks.values());
-        Collections.sort(list);
+        this.tasks = this.tasks.entrySet().stream().sorted(Map.Entry.comparingByValue()).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> a, LinkedHashMap::new));
+
     }
 
     @Override
     public void sort(Comparator<Task> comparator) {
-        List<Task> list = new ArrayList<>(this.tasks.values());
-        Collections.sort(list, comparator);
+        this.tasks = this.tasks.entrySet().stream().sorted((o1, o2) -> {
+            Task task1 = o1.getValue();
+            Task task2 = o2.getValue();
+            return comparator.compare(task1,task2);
+        }).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> a, LinkedHashMap::new));
+
     }
 
     @Override
@@ -82,12 +81,12 @@ public class MapImplementationTaskBoard implements MapTaskBoard, Serializable {
         }
         if (obj instanceof MapTaskBoard taskBoard) {
             if (taskBoard.getAllTask().size() == this.tasks.size()) {
-                for (Map.Entry<Long, Task> entry : tasks.entrySet()) {
-                    Optional<Task> taskFromBoard = taskBoard.getTaskById(entry.getValue().getId());
+                for (Task entry : tasks.values()) {
+                    Optional<Task> taskFromBoard = taskBoard.getTaskById(entry.getId());
                     if (taskFromBoard.isEmpty()) {
                         return false;
                     }
-                    if (!entry.getValue().equals(taskFromBoard.get())) {
+                    if (!entry.equals(taskFromBoard.get())) {
                         return false;
                     }
 
