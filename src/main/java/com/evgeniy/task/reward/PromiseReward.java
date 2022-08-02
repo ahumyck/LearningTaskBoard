@@ -13,6 +13,9 @@ public class PromiseReward implements Reward, Serializable {
         this.promise = promise;
     }
 
+    public PromiseReward() {
+    }
+
     public String toString() {
     return promise;
     }

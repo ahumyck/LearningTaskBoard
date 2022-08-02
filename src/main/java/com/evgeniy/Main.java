@@ -1,6 +1,7 @@
 package com.evgeniy;
 
 import com.evgeniy.files.FilesManager;
+import com.evgeniy.task.DefaultTask;
 import com.evgeniy.task.Task;
 import com.evgeniy.task.board.ListImplementationTaskBoard;
 import com.evgeniy.task.board.ListTaskBoard;
@@ -8,8 +9,17 @@ import com.evgeniy.task.creation.TaskCreationService;
 import com.evgeniy.task.reward.BadgeReward;
 import com.evgeniy.task.reward.MoneyReward;
 import com.evgeniy.task.reward.PromiseReward;
+import com.evgeniy.task.reward.Reward;
+import com.fasterxml.jackson.databind.deser.std.NumberDeserializers;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
-import java.util.Comparator;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class Main {
@@ -17,30 +27,54 @@ public class Main {
     /**
      * Запускать программу тут
      */
-    public static void main(String[] args) throws ClassNotFoundException {
+    public static void main(String[] args) {
+
         ListTaskBoard taskBoard = new ListImplementationTaskBoard();
-        /*Reward reward1 = new DefaultReward<>(1000L);
-        Reward reward2 = new DefaultReward<>(1500L);
-        Reward reward3 = new DefaultReward<>(2000L);
-        Reward reward4 = new DefaultReward<>(2500L);
-        Reward reward5 = new DefaultReward<>(3000L);*/
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
         Task task1 = TaskCreationService.getInstance().createTask("Add tasks", "Add some tasks for test", new MoneyReward(1000L));
+        try (FileWriter writer = new FileWriter("task.json")) {
+            gson.toJson(task1, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (FileReader reader = new FileReader("task.json")) {
+            DefaultTask taskReader = gson.fromJson(reader, DefaultTask.class);
+            System.out.println(taskReader);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
         Task task2 = TaskCreationService.getInstance().createTask("Show all tasks", "Show all added tasks for test", new BadgeReward("Gold badge"));
         Task task3 = TaskCreationService.getInstance().createTask("Remove any task", "Remove some tasks for test", new PromiseReward("Reward next week"));
         Task task4 = TaskCreationService.getInstance().createTask("Change task's status", "Change status of any task for test", new MoneyReward(2000L));
         Task task5 = TaskCreationService.getInstance().createTask("Show tasks by status", "Show all tasks with same status for test", new MoneyReward(3000L));
-        FilesManager fileCommands = new FilesManager();
-        fileCommands.writeIntoFile("E:/intellijfiles/task1.txt", task1);
-        Optional<Task> fileTask = fileCommands.readFromFile("E:/intellijfiles/task1.txt", Task.class);
-        System.out.println(fileTask);
         System.out.println("Add.");
         taskBoard.addTask(task1);
         taskBoard.addTask(task2);
         taskBoard.addTask(task3);
         taskBoard.addTask(task4);
         taskBoard.addTask(task5);
+        System.out.println(taskBoard);
 
-        taskBoard.sort(new Comparator<Task>() {
+        try (FileWriter writer = new FileWriter("taskBoard.json")) {
+            gson.toJson(taskBoard, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (FileReader reader = new FileReader("taskBoard.json")) {
+            ListImplementationTaskBoard taskBoardReader = gson.fromJson(reader, ListImplementationTaskBoard.class);
+            System.out.println(taskBoardReader);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        //filesManager.writeIntoFile("taskboard.json", gson.toJson(taskBoard));
+        //Optional<ListTaskBoard> boardReader = filesManager.readFromFile("taskboard.json",ListTaskBoard.class);
+        //System.out.println(boardReader.get());
+        /*taskBoard.sort(new Comparator<Task>() {
             @Override
             public int compare(Task t1, Task t2) {
                 int res = Long.signum(t1.getId() - t2.getId());
@@ -63,7 +97,7 @@ public class Main {
         for (int i = 0; i < taskBoard.getAllTask().size(); i++) {
             System.out.println(cloneTaskBoard.getAllTask().get(i));
         }*/
-        for (Task task : taskBoard) {
+        /*for (Task task : taskBoard) {
             System.out.println(task);
         }
 

@@ -15,11 +15,11 @@ public class DefaultTask implements Task, Serializable {
 
     @Serial
     private static final long serialVersionUID = -7131997297109948762L;
-    private final Long id;
+    private Long id;
     private String name;
     private String description;
     private Status status;
-    private final Date creationDate;
+    private Date creationDate;
     private Reward reward;
 
     public DefaultTask(Long id, String name, String description, Reward reward) {
@@ -34,6 +34,9 @@ public class DefaultTask implements Task, Serializable {
     public DefaultTask(Long id, String name, String description, Reward reward, Status status) {
         this(id, name, description, reward);
         this.status = status;
+    }
+
+    public DefaultTask() {
     }
 
     @Override
