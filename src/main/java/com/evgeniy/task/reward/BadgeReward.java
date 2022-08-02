@@ -13,6 +13,9 @@ public class BadgeReward implements Reward, Serializable {
         this.badge = badge;
     }
 
+    public BadgeReward() {
+    }
+
     public String toString() {
         return badge;
     }
