@@ -2,11 +2,11 @@ package com.evgeniy.task.board;
 
 import com.evgeniy.task.Task;
 
+import java.util.Collection;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Optional;
 
-public interface TaskBoard extends Cloneable,Iterable<Task> {
+public interface CollectionTaskBoard extends Cloneable,Iterable<Task> {
 
     /**
      * Пытается добавить задачу на доску
@@ -32,7 +32,7 @@ public interface TaskBoard extends Cloneable,Iterable<Task> {
     /**
      * @return Список всех задач из доски
      */
-    List<Task> getAllTask();
+    Collection<Task> getAllTask();
 
     /**
      * @param taskId - уникальный идентификатор таски
@@ -40,7 +40,7 @@ public interface TaskBoard extends Cloneable,Iterable<Task> {
      */
     Optional<Task> getTaskById(Long taskId);
 
-    TaskBoard clone() throws CloneNotSupportedException;
+    CollectionTaskBoard clone() throws CloneNotSupportedException;
 
     void sort();
 

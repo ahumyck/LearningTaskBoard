@@ -1,13 +1,17 @@
 package com.evgeniy.task.creation;
 
 import com.evgeniy.task.Task;
-import com.evgeniy.task.board.DefaultTaskBoard;
-import com.evgeniy.task.board.TaskBoard;
+import com.evgeniy.task.board.*;
 import com.evgeniy.task.exception.NoRewardException;
 import com.evgeniy.task.MockReward;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.function.Supplier;
 
 
 class TaskCreationServiceTest {
@@ -24,8 +28,21 @@ class TaskCreationServiceTest {
     }
 
     @Test
-    void tasksAddingCheck(){
-        TaskBoard taskBoard = new DefaultTaskBoard();
+    void listAddingCheck() {
+        tasksAddingCheck(ListImplementationTaskBoard::new);
+    }
+
+    @Test
+    void collectionAddingCheck() {
+        tasksAddingCheck(() -> new CollectionImplementationTaskBoard(new ArrayList<>()));
+    }
+
+    @Test
+    void mapAddingCheck() {
+        tasksAddingCheck(() -> new MapImplementationTaskBoard(new HashMap<>()));
+    }
+    private void tasksAddingCheck(Supplier<CollectionTaskBoard> collectionTaskBoardSupplier){
+        CollectionTaskBoard taskBoard = collectionTaskBoardSupplier.get();
 
         Task task1 = TaskCreationService.getInstance().createTask("", "", new MockReward());
         Task task2 = TaskCreationService.getInstance().createTask("", "", new MockReward());
@@ -43,8 +60,21 @@ class TaskCreationServiceTest {
     }
 
     @Test
-    void tasksRemovingCheck(){
-        TaskBoard taskBoard2 = new DefaultTaskBoard();
+    void listRemovingCheck() {
+        tasksRemovingCheck(ListImplementationTaskBoard::new);
+    }
+
+    @Test
+    void collectionRemovingCheck() {
+        tasksRemovingCheck(() -> new CollectionImplementationTaskBoard(new ArrayList<>()));
+    }
+
+    @Test
+    void mapRemovingCheck() {
+        tasksRemovingCheck(() -> new MapImplementationTaskBoard(new HashMap<>()));
+    }
+    private void tasksRemovingCheck(Supplier<CollectionTaskBoard> collectionTaskBoardSupplier){
+        CollectionTaskBoard taskBoard2 = collectionTaskBoardSupplier.get();
         Task task5 = TaskCreationService.getInstance().createTask("", "", new MockReward());
         Task task6 = TaskCreationService.getInstance().createTask("", "", new MockReward());
         Task task7 = TaskCreationService.getInstance().createTask("", "", new MockReward());
@@ -62,11 +92,6 @@ class TaskCreationServiceTest {
 
     @Test
     void checkRewardException(){
-        Assertions.assertThrowsExactly(NoRewardException.class, new Executable() {
-            @Override
-            public void execute() throws Throwable {
-                TaskCreationService.getInstance().createTask("name", "desc", null);
-            }
-        });
+        Assertions.assertThrowsExactly(NoRewardException.class, () -> TaskCreationService.getInstance().createTask("name", "desc", null));
     }
 }

@@ -1,15 +1,26 @@
 package com.evgeniy.task.board;
 
 import com.evgeniy.task.Task;
+import com.evgeniy.task.exception.empty.CollectionNotEmptyException;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class DefaultTaskBoard implements TaskBoard, Serializable {
+public class CollectionImplementationTaskBoard implements CollectionTaskBoard, Serializable {
     @Serial
     private static final long serialVersionUID = -1233761277930413217L;
-    private List<Task> tasks = new ArrayList<>();
+    private Collection<Task> tasks;
+
+    public CollectionImplementationTaskBoard(Collection<Task> tasks) {
+        if (!tasks.isEmpty()) {
+            throw new CollectionNotEmptyException("Collection isn't empty!");
+        }
+        this.tasks = tasks;
+    }
+
 
     @Override
     public boolean addTask(Task task) {
@@ -32,8 +43,8 @@ public class DefaultTaskBoard implements TaskBoard, Serializable {
     }
 
     @Override
-    public List<Task> getAllTask() {
-        return Collections.unmodifiableList(tasks);
+    public Collection<Task> getAllTask() {
+        return Collections.unmodifiableCollection(this.tasks);
     }
 
     @Override
@@ -47,8 +58,8 @@ public class DefaultTaskBoard implements TaskBoard, Serializable {
     }
 
     @Override
-    public TaskBoard clone() throws CloneNotSupportedException {
-        DefaultTaskBoard taskBoard = new DefaultTaskBoard();
+    public CollectionTaskBoard clone() throws CloneNotSupportedException {
+        CollectionImplementationTaskBoard taskBoard = new CollectionImplementationTaskBoard(new ArrayList<>());
         for (Task task : this.tasks) {
             taskBoard.addTask(task.clone());
         }
@@ -57,12 +68,12 @@ public class DefaultTaskBoard implements TaskBoard, Serializable {
 
     @Override
     public void sort() {
-        Collections.sort(this.tasks);
+        this.tasks = this.tasks.stream().sorted().collect(Collectors.toList());
     }
 
     @Override
     public void sort(Comparator<Task> comparator) {
-        this.tasks.sort(comparator);
+        this.tasks=this.tasks.stream().sorted(comparator).collect(Collectors.toList());
     }
 
     @Override
@@ -72,16 +83,16 @@ public class DefaultTaskBoard implements TaskBoard, Serializable {
         } else if (this == obj) {
             return true;
         }
-        if (obj instanceof TaskBoard taskBoard) {
+        if (obj instanceof CollectionTaskBoard taskBoard) {
             if (taskBoard.getAllTask().size() == this.tasks.size()) {
                 for (Task task : this.tasks) {
                     Optional<Task> taskFromBoard = taskBoard.getTaskById(task.getId());
                     if (taskFromBoard.isEmpty()) {
                         return false;
                     }
-                       if (!task.equals(taskFromBoard.get())) {
-                            return false;
-                        }
+                    if (!task.equals(taskFromBoard.get())) {
+                        return false;
+                    }
 
                 }
                 return true;
@@ -94,5 +105,15 @@ public class DefaultTaskBoard implements TaskBoard, Serializable {
     @Override
     public Iterator<Task> iterator() {
         return this.tasks.iterator();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (Task task : this.tasks) {
+            sb.append(task.toString()).append("\n");
+
+        }
+        return sb.toString();
     }
 }
