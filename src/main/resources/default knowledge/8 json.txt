@@ -19,13 +19,210 @@
 
 3. Сделай тоже самое для TaskBoard
 
-4. С помощью maven'-a подключи библиотеку jackson любой версии какой хочешь (я бы брал самую последнюю), и сделай пункты
-1-3 с помощью jackson'-a
 
 
-5. Создай интерфейс TaskJsonFileHandler, пусть он расширяет TaskFileHandler:
-6. Создай две имплементации TaskJsonFileHandler: TaskGsonFileHandler, TaskJacksonFileHandler
-7. Соответственно попробуй теперь реализовать методы этих классов с помощью кода из менйа, чтобы всё заработало
+Java Reflections API
 
-8. На эти два класса напиши юнит тесты, аналогично заданию из 5 пункта
-    (создать таск(боард), записать в файл, прочитать из файла, сравнить на equals)
+Добро пожаловать в прекрасный мир Java Reflections, который позволяет выворачивать объекты наизнанку и насиловать их как только захочешь :)
+
+Собственно идея в следующем, нам нужно реализовать 2 класса для ВСЕХ объектов сразу 
+1. public class ObjectDeserializer implements JsonDeserializer<Object> 
+2. public class ObjectSerializer implements JsonSerializer<Object>
+3. Зарегестрировать через registerTypeAdapter для каждого интерфейса оба класса, т.е. будет 4 вызова
+
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .registerTypeAdapter(Reward.class, new ObjectSerializer())
+                .registerTypeAdapter(Reward.class, new ObjectDeserializer())
+                .registerTypeAdapter(Task.class, new ObjectSerializer())
+                .registerTypeAdapter(Task.class, new ObjectDeserializer())
+                .create();
+
+В чем основная идея, как мы будем решать эту проблему? Всё довольно просто.
+Т.к. GSON не может нам создать объект из интерфейса, нужно "динамически" подсказать ему, какой именно наследник он должен использовать (MoneyReward, BadgeReward или PromiseReward для интерфейса Reward, а DefaultTask соответственно для Task).
+
+Сейчас, если ты запустишь свой main, то файл task.json будет выглядеть следующим образом: 
+{
+  "id": 999999,
+  "name": "Add tasks",
+  "description": "Add some tasks for test",
+  "status": "OPEN",
+  "creationDate": "Aug 3, 2022, 2:41:52 PM",
+  "reward": {
+    "money": 1000
+  }
+}
+
+нам же нужно добиться, чтобы он выглядел следующим образом:
+
+{
+  "id": 999999,
+  "name": "Add tasks",
+  "description": "Add some tasks for test",
+  "status": "OPEN",
+  "creationDate": "Aug 3, 2022, 2:41:52 PM",
+  "reward": {
+    "money": 1000,
+    ***"className": "com.evgeniy.task.reward.MoneyReward"***
+  }
+}
+
+у reward появилось дополнительное поле className - это и есть подсказка для GSON какой класс использовать для интерфейсов.
+
+Тоже самое необходимо сделать и для Task
+    {
+      "name": "Show tasks by status",
+      "id": 1000003,
+      "creationTime": "Aug 3, 2022, 2:41:52 PM",
+      "reward": {
+        "money": 3000,
+        "className": "com.evgeniy.task.reward.MoneyReward"
+      },
+      "description": "Show all tasks with same status for test",
+      "status": "OPEN",
+      "className": "com.evgeniy.task.DefaultTask"
+    }
+
+
+как видишь, тут два поля className: один относится к таску, а другой к награде
+
+идея довольно простая: попросить gson сериализовать объект, как он обычно делает, только добавить поле className. За это как раз будет отвечать ObjectSerializer
+
+Чтобы этого добить, нужно в интерфейс Task добавить метод Reward getReward() и реализовать в DefaultTask (позже поймешь зачем)
+
+Алгоритм следующий: взять у объекта метаинформацию о его классе. Это можно сделать с помощью метода getClass();
+
+public JsonElement serialize(Object sourceObject, Type typeOfSrc, JsonSerializationContext context) {
+        Class<?> clazz = sourceObject.getClass();
+        
+        return //...
+}
+
+Теперь нужно разобраться, а что мы вообще должно вернуть? есть какой-то непонятный JsonElement. Вот мы будем возвращать его наследника - JsonObject. Т.к. в любом случае если класс наследуется от интерфейса => это 100% объект, примитивов тут быть не может
+
+    public JsonElement serialize(Object sourceObject, Type typeOfSrc, JsonSerializationContext context) {
+        JsonObject jsonObject = new JsonObject();
+
+        Class<?> clazz = sourceObject.getClass();
+        
+        ...
+        
+        return jsonObject;
+}
+
+Отлично! Ну, считай мы решили наши базовые проблемы, осталось только самое интересное. Сейчас я опишу тебе алгоритм, что нужно сделать, а ты попробуешь это имплентировать сам, я оставлю подсказки + пиши мне в вк
+
+План следующий:
+0. У всех наследников reward добавить геттеры и сеттеры на поле. Так же создай пустой конструктор и конструктор с одним аргументом. У таски вроде ничего менять не надо (кроме того, что я написал выше)
+1. Теперь у класса clazz вытащи все объявленные методы 
+Class#getDeclaredMethods()
+2. Проитерируйся по ним в цикле
+3. Проверь, начинается ли метод со слова "get"(в таком случае метод является геттером какого-то поля и нам нужно его сериализовать)
+4. Преврати имя метода в имя аттрибута, т.е. getReward -> reward; getDescription -> description. Думаю алгоритм понятен
+5. Теперь проверь, сколько у метода входных параметров. Должно быть ровно 0, иначе это не геттер, а метод который нам нужно пропустить 
+Method#getTypeParameters
+6.1 Проверь, что возвращаемый тип объекта является интерфейсом, если да, то запусти рекурсивный процесс сериализации 
+Method#getReturnType
+6.1.1 Прежде чем рекурсивно запускать процесс сериализации, нужно извлечь извлечь из объекта поле 
+method.invoke(sourceObject)
+6.1.2 Теперь в jsonObject можно добавить полученный JsonElement 
+jsonObject.add(attributeName, serializedObject)
+6.2 Если объект не является интерфейсом, то GSON справится сам и можно реализовать с помощью контекста, а потом по анаологии 6.1.2 добавить его в наш jsonObject
+jsonObject.add(attributeName, context.serialize(method.invoke(sourceObject)))
+
+ну и в самом конце, когда мы прошлись по всем методам оставляем нашу подсказку:
+jsonObject.addProperty("className", sourceObject.getClass().getName());
+
+
+
+С десериализацией все намного проще
+1.JsonElement представляет как JsonObject
+getAsJsonObject
+2.из JsonObject доставем JsonPrimitive по полю "className"
+get -> getAsString
+3.С помощью метода Class#forName создаем класс
+4. Ну а дальше gson справится сам, просто перекидываем всю работу контексту
+return context.deserialize(jsonObject, clazz)
+
+
+
+
+------------------------------
+Ниже подсказки и фулл ответы
+
+
+
+
+
+
+
+public class ObjectSerializer implements JsonSerializer<Object> {
+
+    public static final String CLASSNAME_FIELD = "className";
+
+    @Override
+    @SneakyThrows
+    public JsonElement serialize(Object sourceObject, Type typeOfSrc, JsonSerializationContext context) {
+        JsonObject jsonObject = new JsonObject();
+
+        Class<?> clazz = sourceObject.getClass();
+        for (Method method : clazz.getDeclaredMethods()) {
+            String methodName = method.getName();
+            if (methodName.startsWith("get")) {
+                String attributeName = decapitalize(methodName.replaceAll("get", ""));
+                TypeVariable<Method>[] typeParameters = method.getTypeParameters();
+                if (typeParameters.length == 0) {
+                    //Проверяем, если возвращаемый тип геттера является интерфейсом
+                    if (method.getReturnType().isInterface()) {
+                        //Запускаем рекурсивно процесс для поля, который типа интерфейс
+                        Object interfaceObject = method.invoke(sourceObject);
+                        JsonElement serializedObject = serialize(interfaceObject, null, context);
+
+                        //Сериализованный объект добавляем в наш объект
+                        jsonObject.add(attributeName, serializedObject);
+                    } else {
+                        //Если объект не является интерфейсом, тогда просто сериализуем с помощью контекста как
+                        //обычный объект
+                        jsonObject.add(attributeName, context.serialize(method.invoke(sourceObject)));
+                    }
+                }
+                //else is not really a getter
+            }
+        }
+
+        jsonObject.addProperty(CLASSNAME_FIELD, sourceObject.getClass().getName());
+
+        return jsonObject;
+    }
+
+    private String decapitalize(String value) {
+        return value.substring(0, 1).toLowerCase(Locale.ROOT) + value.substring(1);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+public class ObjectDeserializer implements JsonDeserializer<Object> {
+    @Override
+    public Object deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        JsonObject jsonObject = json.getAsJsonObject();
+        JsonPrimitive jsonPrimitive = (JsonPrimitive) jsonObject.get(ObjectSerializer.CLASSNAME_FIELD);
+        String className = jsonPrimitive.getAsString();
+        Class<?> clazz = getClassInstance(className);
+        return context.deserialize(jsonObject, clazz);
+    }
+
+    @SneakyThrows
+    private Class<?> getClassInstance(String className) {
+        return Class.forName(className);
+    }
+}
+
+
