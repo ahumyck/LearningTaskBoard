@@ -28,9 +28,7 @@ public class CollectionImplementationTaskBoard implements CollectionTaskBoard, S
         if (tasks.getAllTask().isEmpty()) {
             return false;
         } else {
-            Stream<Task> stream = tasks.stream();
-            Stream<Task> result = Stream.concat(this.tasks.stream(), stream);
-            this.tasks = result.collect(Collectors.toList());
+            this.tasks.addAll(tasks.getAllTask());
             return true;
         }
     }
@@ -135,18 +133,5 @@ public class CollectionImplementationTaskBoard implements CollectionTaskBoard, S
         return sb.toString();
     }
 
-    static Collector<Task, ListTaskBoard, ListTaskBoard> toListTaskBoard(){
 
-        return Collector.of(ListImplementationTaskBoard::new,
-                ListTaskBoard::addTask,
-                (tasks1, tasks2) -> {tasks1.addTasks(tasks2);
-            return tasks1;});
-    }
-    static Collector<Task, MapTaskBoard, MapTaskBoard> toMapTaskBoard(){
-
-        return Collector.of(MapImplementationTaskBoard::new,
-                CollectionTaskBoard::addTask,
-                (map1,map2)->{map1.addTasks(map2);
-            return map1;});
-    }
 }

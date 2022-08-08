@@ -28,14 +28,11 @@ public class MapImplementationTaskBoard implements MapTaskBoard, Serializable {
         if (tasks.getAllTask().isEmpty()) {
             return false;
         } else {
-            Stream<Task> stream = tasks.stream();
-            Stream<Task> result = Stream.concat(this.tasks.values().stream(), stream);
             Map<Long,Task> map = new HashMap<>();
-            List<Task> list = result.toList();
-            for(Task task:list){
+            for (Task task:tasks){
                 map.put(task.getId(),task);
             }
-            this.tasks = map;
+            this.tasks.putAll(map);
             return true;
         }
     }
@@ -91,7 +88,7 @@ public class MapImplementationTaskBoard implements MapTaskBoard, Serializable {
         this.tasks = this.tasks.entrySet().stream().sorted((o1, o2) -> {
             Task task1 = o1.getValue();
             Task task2 = o2.getValue();
-            return comparator.compare(task1,task2);
+            return comparator.compare(task1, task2);
         }).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> a, LinkedHashMap::new));
 
     }

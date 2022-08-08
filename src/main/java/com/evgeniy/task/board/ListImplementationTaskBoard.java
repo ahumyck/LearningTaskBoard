@@ -20,9 +20,7 @@ public class ListImplementationTaskBoard implements ListTaskBoard, Serializable 
         if (tasks.getAllTask().isEmpty()) {
             return false;
         } else {
-            Stream<Task> stream = tasks.stream();
-            Stream<Task> result = Stream.concat(this.tasks.stream(), stream);
-            this.tasks = result.collect(Collectors.toList());
+            this.tasks.addAll(tasks.getAllTask());
             return true;
         }
     }

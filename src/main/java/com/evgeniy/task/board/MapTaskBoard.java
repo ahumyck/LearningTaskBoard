@@ -6,7 +6,6 @@ import java.util.Comparator;
 
 public interface MapTaskBoard extends CollectionTaskBoard,Cloneable,Iterable<Task>{
 
-
     MapTaskBoard clone() throws CloneNotSupportedException;
 
 }
