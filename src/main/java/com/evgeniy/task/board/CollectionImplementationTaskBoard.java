@@ -6,6 +6,7 @@ import com.evgeniy.task.exception.empty.CollectionNotEmptyException;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -21,6 +22,23 @@ public class CollectionImplementationTaskBoard implements CollectionTaskBoard, S
         this.tasks = tasks;
     }
 
+
+    @Override
+    public boolean addTasks(CollectionTaskBoard tasks) {
+        if (tasks.getAllTask().isEmpty()) {
+            return false;
+        } else {
+            Stream<Task> stream = tasks.stream();
+            Stream<Task> result = Stream.concat(this.tasks.stream(), stream);
+            this.tasks = result.collect(Collectors.toList());
+            return true;
+        }
+    }
+
+    @Override
+    public Stream<Task> stream() {
+        return this.tasks.stream();
+    }
 
     @Override
     public boolean addTask(Task task) {
@@ -73,7 +91,7 @@ public class CollectionImplementationTaskBoard implements CollectionTaskBoard, S
 
     @Override
     public void sort(Comparator<Task> comparator) {
-        this.tasks=this.tasks.stream().sorted(comparator).collect(Collectors.toList());
+        this.tasks = this.tasks.stream().sorted(comparator).collect(Collectors.toList());
     }
 
     @Override
@@ -115,5 +133,20 @@ public class CollectionImplementationTaskBoard implements CollectionTaskBoard, S
 
         }
         return sb.toString();
+    }
+
+    static Collector<Task, ListTaskBoard, ListTaskBoard> toListTaskBoard(){
+
+        return Collector.of(ListImplementationTaskBoard::new,
+                ListTaskBoard::addTask,
+                (tasks1, tasks2) -> {tasks1.addTasks(tasks2);
+            return tasks1;});
+    }
+    static Collector<Task, MapTaskBoard, MapTaskBoard> toMapTaskBoard(){
+
+        return Collector.of(MapImplementationTaskBoard::new,
+                CollectionTaskBoard::addTask,
+                (map1,map2)->{map1.addTasks(map2);
+            return map1;});
     }
 }

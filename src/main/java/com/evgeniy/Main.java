@@ -1,6 +1,7 @@
 package com.evgeniy;
 
 import com.evgeniy.files.FilesManager;
+import com.evgeniy.task.Status;
 import com.evgeniy.task.Task;
 import com.evgeniy.task.board.ListImplementationTaskBoard;
 import com.evgeniy.task.board.ListTaskBoard;
@@ -10,7 +11,9 @@ import com.evgeniy.task.reward.MoneyReward;
 import com.evgeniy.task.reward.PromiseReward;
 
 import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -39,6 +42,9 @@ public class Main {
         taskBoard.addTask(task3);
         taskBoard.addTask(task4);
         taskBoard.addTask(task5);
+        taskBoard.stream().map(Task::getId).forEach(System.out::println);
+        List<Task> list = taskBoard.stream().filter(c->(c.getId()%2)==0).collect(Collectors.toList());
+        System.out.println(list);
 
         taskBoard.sort(new Comparator<Task>() {
             @Override
@@ -52,7 +58,7 @@ public class Main {
         });
 
 
-        System.out.println(task1.getReward(BadgeReward.class));
+        /*System.out.println(task1.getReward(BadgeReward.class));
         System.out.println(task1.getReward(PromiseReward.class));
         System.out.println(task1.getReward(MoneyReward.class));
 
@@ -62,7 +68,7 @@ public class Main {
         System.out.println(taskBoard.equals(cloneTaskBoard));
         for (int i = 0; i < taskBoard.getAllTask().size(); i++) {
             System.out.println(cloneTaskBoard.getAllTask().get(i));
-        }*/
+        }
         for (Task task : taskBoard) {
             System.out.println(task);
         }
@@ -77,12 +83,14 @@ public class Main {
             for (Task task : taskBoard1) {
                 System.out.println(task);
             }
-        });
-        /*System.out.println("Change status.");
+        });*/
+        System.out.println("Change status.");
         task1.setStatus(Status.CLOSED);
         task2.setStatus(Status.CLOSED);
         task5.setStatus(Status.EXPIRED);
-        for (int i = 0; i < taskBoard.getAllTask().size(); i++) {
+        List<Task> list1 = taskBoard.stream().filter(c->c.getStatus()==Status.CLOSED).collect(Collectors.toList());
+        System.out.println(list1);
+       /* for (int i = 0; i < taskBoard.getAllTask().size(); i++) {
             System.out.println(taskBoard.getAllTask().get(i));
         }
         //System.out.println("Show tasks by status");

@@ -7,6 +7,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MapImplementationTaskBoard implements MapTaskBoard, Serializable {
     @Serial
@@ -19,6 +20,29 @@ public class MapImplementationTaskBoard implements MapTaskBoard, Serializable {
             throw new MapNotEmptyException("Map isn't empty!");
         }
         this.tasks = tasks;
+    }
+
+
+    @Override
+    public boolean addTasks(CollectionTaskBoard tasks) {
+        if (tasks.getAllTask().isEmpty()) {
+            return false;
+        } else {
+            Stream<Task> stream = tasks.stream();
+            Stream<Task> result = Stream.concat(this.tasks.values().stream(), stream);
+            Map<Long,Task> map = new HashMap<>();
+            List<Task> list = result.toList();
+            for(Task task:list){
+                map.put(task.getId(),task);
+            }
+            this.tasks = map;
+            return true;
+        }
+    }
+
+    @Override
+    public Stream<Task> stream() {
+        return this.tasks.values().stream();
     }
 
     public boolean addTask(Task task) {

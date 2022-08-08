@@ -5,12 +5,32 @@ import com.evgeniy.task.Task;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ListImplementationTaskBoard implements ListTaskBoard, Serializable {
 
     @Serial
     private static final long serialVersionUID = -9128371872503017141L;
     private List<Task> tasks = new ArrayList<>();
+
+    @Override
+    public boolean addTasks(CollectionTaskBoard tasks) {
+        if (tasks.getAllTask().isEmpty()) {
+            return false;
+        } else {
+            Stream<Task> stream = tasks.stream();
+            Stream<Task> result = Stream.concat(this.tasks.stream(), stream);
+            this.tasks = result.collect(Collectors.toList());
+            return true;
+        }
+    }
+
+    @Override
+    public Stream<Task> stream() {
+        return this.tasks.stream();
+    }
 
     @Override
     public boolean addTask(Task task) {
@@ -104,4 +124,5 @@ public class ListImplementationTaskBoard implements ListTaskBoard, Serializable 
         }
         return sb.toString();
     }
+
 }

@@ -5,9 +5,13 @@ import com.evgeniy.task.Task;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public interface CollectionTaskBoard extends Cloneable,Iterable<Task> {
 
+
+    boolean addTasks(CollectionTaskBoard tasks);
+    Stream<Task> stream();
     /**
      * Пытается добавить задачу на доску
      *
