@@ -6,6 +6,7 @@ import com.evgeniy.task.exception.empty.CollectionNotEmptyException;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -21,6 +22,18 @@ public class CollectionImplementationTaskBoard implements CollectionTaskBoard, S
         this.tasks = tasks;
     }
 
+
+    @Override
+    public boolean addTasks(CollectionTaskBoard tasks) {
+
+            return this.tasks.addAll(tasks.getAllTask());
+
+    }
+
+    @Override
+    public Stream<Task> stream() {
+        return this.tasks.stream();
+    }
 
     @Override
     public boolean addTask(Task task) {
@@ -73,7 +86,7 @@ public class CollectionImplementationTaskBoard implements CollectionTaskBoard, S
 
     @Override
     public void sort(Comparator<Task> comparator) {
-        this.tasks=this.tasks.stream().sorted(comparator).collect(Collectors.toList());
+        this.tasks = this.tasks.stream().sorted(comparator).collect(Collectors.toList());
     }
 
     @Override
@@ -116,4 +129,6 @@ public class CollectionImplementationTaskBoard implements CollectionTaskBoard, S
         }
         return sb.toString();
     }
+
+
 }

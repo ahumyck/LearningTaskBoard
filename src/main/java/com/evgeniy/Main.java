@@ -1,16 +1,22 @@
 package com.evgeniy;
 
 import com.evgeniy.files.FilesManager;
+import com.evgeniy.task.Status;
 import com.evgeniy.task.Task;
+import com.evgeniy.task.board.CollectionTaskBoard;
 import com.evgeniy.task.board.ListImplementationTaskBoard;
 import com.evgeniy.task.board.ListTaskBoard;
+import com.evgeniy.task.board.MapTaskBoard;
 import com.evgeniy.task.creation.TaskCreationService;
 import com.evgeniy.task.reward.BadgeReward;
 import com.evgeniy.task.reward.MoneyReward;
 import com.evgeniy.task.reward.PromiseReward;
 
 import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -29,16 +35,19 @@ public class Main {
         Task task3 = TaskCreationService.getInstance().createTask("Remove any task", "Remove some tasks for test", new PromiseReward("Reward next week"));
         Task task4 = TaskCreationService.getInstance().createTask("Change task's status", "Change status of any task for test", new MoneyReward(2000L));
         Task task5 = TaskCreationService.getInstance().createTask("Show tasks by status", "Show all tasks with same status for test", new MoneyReward(3000L));
-        FilesManager fileCommands = new FilesManager();
-        fileCommands.writeIntoFile("E:/intellijfiles/task1.txt", task1);
-        Optional<Task> fileTask = fileCommands.readFromFile("E:/intellijfiles/task1.txt", Task.class);
-        System.out.println(fileTask);
+        //FilesManager fileCommands = new FilesManager();
+        //fileCommands.writeIntoFile("E:/intellijfiles/task1.txt", task1);
+        //Optional<Task> fileTask = fileCommands.readFromFile("E:/intellijfiles/task1.txt", Task.class);
+        //System.out.println(fileTask);
         System.out.println("Add.");
         taskBoard.addTask(task1);
         taskBoard.addTask(task2);
         taskBoard.addTask(task3);
         taskBoard.addTask(task4);
         taskBoard.addTask(task5);
+        taskBoard.stream().map(Task::getId).forEach(System.out::println);
+        MapTaskBoard mapBoard = taskBoard.stream().filter(c -> (c.getId() % 2) == 0).collect(CollectionTaskBoard.toMapTaskBoard());
+        System.out.println(mapBoard);
 
         taskBoard.sort(new Comparator<Task>() {
             @Override
@@ -52,7 +61,7 @@ public class Main {
         });
 
 
-        System.out.println(task1.getReward(BadgeReward.class));
+        /*System.out.println(task1.getReward(BadgeReward.class));
         System.out.println(task1.getReward(PromiseReward.class));
         System.out.println(task1.getReward(MoneyReward.class));
 
@@ -62,7 +71,7 @@ public class Main {
         System.out.println(taskBoard.equals(cloneTaskBoard));
         for (int i = 0; i < taskBoard.getAllTask().size(); i++) {
             System.out.println(cloneTaskBoard.getAllTask().get(i));
-        }*/
+        }
         for (Task task : taskBoard) {
             System.out.println(task);
         }
@@ -77,12 +86,14 @@ public class Main {
             for (Task task : taskBoard1) {
                 System.out.println(task);
             }
-        });
-        /*System.out.println("Change status.");
+        });*/
+        System.out.println("Change status.");
         task1.setStatus(Status.CLOSED);
         task2.setStatus(Status.CLOSED);
         task5.setStatus(Status.EXPIRED);
-        for (int i = 0; i < taskBoard.getAllTask().size(); i++) {
+        ListTaskBoard list1 = taskBoard.stream().filter(c -> c.getStatus() == Status.CLOSED).collect(CollectionTaskBoard.toListTaskBoard());
+        System.out.println(list1);
+       /* for (int i = 0; i < taskBoard.getAllTask().size(); i++) {
             System.out.println(taskBoard.getAllTask().get(i));
         }
         //System.out.println("Show tasks by status");

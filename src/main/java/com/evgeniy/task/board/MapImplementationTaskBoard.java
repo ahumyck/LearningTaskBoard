@@ -7,18 +7,39 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MapImplementationTaskBoard implements MapTaskBoard, Serializable {
     @Serial
     private static final long serialVersionUID = -9128371872503017141L;
-    private Map<Long, Task> tasks;
 
-
+    Map<Long, Task> tasks = new HashMap<>();
     public MapImplementationTaskBoard(Map<Long, Task> tasks) {
         if (!tasks.isEmpty()) {
             throw new MapNotEmptyException("Map isn't empty!");
         }
         this.tasks = tasks;
+    }
+
+    public MapImplementationTaskBoard() {
+
+    }
+
+
+    @Override
+    public boolean addTasks(CollectionTaskBoard collectionTaskBoard) {
+        if (collectionTaskBoard.getAllTask().isEmpty()) {
+            return false;
+        } else {
+            collectionTaskBoard.stream().forEach(task -> this.tasks.put(task.getId(),task));
+
+            return true;
+        }
+    }
+
+    @Override
+    public Stream<Task> stream() {
+        return this.tasks.values().stream();
     }
 
     public boolean addTask(Task task) {
@@ -67,7 +88,7 @@ public class MapImplementationTaskBoard implements MapTaskBoard, Serializable {
         this.tasks = this.tasks.entrySet().stream().sorted((o1, o2) -> {
             Task task1 = o1.getValue();
             Task task2 = o2.getValue();
-            return comparator.compare(task1,task2);
+            return comparator.compare(task1, task2);
         }).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> a, LinkedHashMap::new));
 
     }
