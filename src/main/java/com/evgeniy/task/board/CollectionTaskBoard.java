@@ -66,8 +66,8 @@ public interface CollectionTaskBoard extends Cloneable, Iterable<Task> {
     static Collector<Task, MapTaskBoard, MapTaskBoard> toMapTaskBoard() {
         return Collector.of(MapImplementationTaskBoard::new,
                 MapTaskBoard::addTask,
-                (tasks1, tasks2) -> {
-                    tasks1.addTasks(tasks2);
+                (MapTaskBoard tasks1, MapTaskBoard tasks2) -> {
+                    tasks2.addTasks(tasks1);
                     return tasks1;
                 });
     }

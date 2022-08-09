@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 public class MapImplementationTaskBoard implements MapTaskBoard, Serializable {
     @Serial
     private static final long serialVersionUID = -9128371872503017141L;
-    private Map<Long, Task> tasks;
+    private Map<Long, Task> tasks = new HashMap<>();
 
 
     public MapImplementationTaskBoard(Map<Long, Task> tasks) {
@@ -47,7 +47,7 @@ public class MapImplementationTaskBoard implements MapTaskBoard, Serializable {
     }
 
     public boolean addTask(Task task) {
-        return this.tasks.put(task.getId(), task) != null;
+        return tasks.put(task.getId(), task) != null;
     }
 
 
