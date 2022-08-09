@@ -12,9 +12,8 @@ import java.util.stream.Stream;
 public class MapImplementationTaskBoard implements MapTaskBoard, Serializable {
     @Serial
     private static final long serialVersionUID = -9128371872503017141L;
-    private Map<Long, Task> tasks = new HashMap<>();
 
-
+    Map<Long, Task> tasks = new HashMap<>();
     public MapImplementationTaskBoard(Map<Long, Task> tasks) {
         if (!tasks.isEmpty()) {
             throw new MapNotEmptyException("Map isn't empty!");
@@ -28,15 +27,12 @@ public class MapImplementationTaskBoard implements MapTaskBoard, Serializable {
 
 
     @Override
-    public boolean addTasks(CollectionTaskBoard tasks) {
-        if (tasks.getAllTask().isEmpty()) {
+    public boolean addTasks(CollectionTaskBoard collectionTaskBoard) {
+        if (collectionTaskBoard.getAllTask().isEmpty()) {
             return false;
         } else {
-            Map<Long,Task> map = new HashMap<>();
-            for (Task task:tasks){
-                map.put(task.getId(),task);
-            }
-            this.tasks.putAll(map);
+            collectionTaskBoard.stream().forEach(task -> this.tasks.put(task.getId(),task));
+
             return true;
         }
     }

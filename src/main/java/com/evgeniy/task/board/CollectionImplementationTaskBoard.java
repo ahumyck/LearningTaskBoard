@@ -25,12 +25,9 @@ public class CollectionImplementationTaskBoard implements CollectionTaskBoard, S
 
     @Override
     public boolean addTasks(CollectionTaskBoard tasks) {
-        if (tasks.getAllTask().isEmpty()) {
-            return false;
-        } else {
-            this.tasks.addAll(tasks.getAllTask());
-            return true;
-        }
+
+            return this.tasks.addAll(tasks.getAllTask());
+
     }
 
     @Override
