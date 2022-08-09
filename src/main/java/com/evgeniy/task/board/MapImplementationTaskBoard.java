@@ -22,6 +22,10 @@ public class MapImplementationTaskBoard implements MapTaskBoard, Serializable {
         this.tasks = tasks;
     }
 
+    public MapImplementationTaskBoard() {
+
+    }
+
 
     @Override
     public boolean addTasks(CollectionTaskBoard tasks) {
@@ -43,7 +47,7 @@ public class MapImplementationTaskBoard implements MapTaskBoard, Serializable {
     }
 
     public boolean addTask(Task task) {
-        return tasks.put(task.getId(), task) != null;
+        return this.tasks.put(task.getId(), task) != null;
     }
 
 
